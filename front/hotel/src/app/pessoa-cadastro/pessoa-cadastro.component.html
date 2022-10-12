@@ -1,0 +1,32 @@
+<div>
+    <form action="" [formGroup]="pessoaForm">
+        <fieldset class="background-azul color-white"> Novo(a) Hospede</fieldset>
+
+        <div class="content">
+            <div class="flex-item-1">
+                <div> <label for="">Nome</label> </div>
+                <input class="width-95" f formControlName="nome" type="text">
+            </div>
+
+            <div class="flex-item-1">
+                <div> <label for="">Documento</label> </div>
+                <input class="width-95" f formControlName="documento" type="text">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="flex-item-1">
+                <div> <label for="">Telefone</label> </div>
+                <input class="width-95" f formControlName="telefone" type="text">
+            </div>
+        </div>
+
+
+
+        <p class="alinhar-direita content">
+            <button class="btn background-azul color-white" (click)="salvar()">
+                salvar
+            </button>
+        </p>
+    </form>
+</div>

@@ -1,0 +1,121 @@
+<p>
+    <button class="btn background-azul color-white" (click)="incluirPessoa()">
+        Incluir Pessoa
+    </button>
+</p>
+<div>
+    <form action="" [formGroup]="checkinForm">
+        <fieldset class="background-azul color-white"> Novo Check in</fieldset>
+
+        <div class="content">
+            <div class="flex-item-1">
+                <div> <label for="">Data/Hora de Entrada</label> </div>
+                <input class="width-95" formControlName="dataEntrada" type="datetime-local">
+            </div>
+
+            <div class="flex-item-1">
+                <div> <label for="">Data/Hora de Saída</label> </div>
+                <input class="width-95" formControlName="dataSaida" type="datetime-local">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="flex-item-1">
+                <div> <label for="">Pessoa</label> </div>
+                <div *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
+                    <div formGroupName="pessoa">
+                        <input class="width-95" formControlName="nome" type="text">
+                    </div>
+                    <div *ngIf="this.showBuscaPessoas">
+                        <app-busca-pessoas [termoPesquisa]="this.termoPesquisa"
+                            (fecharBuscaPessoasEmitter)="fecharBuscaPessoas($event)"></app-busca-pessoas>
+                    </div>
+                </div>
+                <ng-template #pessoaSelecionada>
+                    <div class="row ">
+                        <div class="flex-item-12" formGroupName="pessoa">
+                            <input class="width-100" formControlName="nome" type="text">
+                        </div>
+                        <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="flex-item-1">
+                <div>
+                    <input formControlName="adicionalVeiculo" id="possui-veiculo" type="checkbox">
+                    <label for="possui-veiculo">Possui Veículo</label>
+                </div>
+            </div>
+        </div>
+        <p class="alinhar-direita content">
+            <button class="btn background-azul color-white" (click)="salvar()">
+                salvar
+            </button>
+        </p>
+    </form>
+</div>
+<p>
+
+</p>
+<div>
+    <form [formGroup]="pesquisaCheckinForm">
+        <fieldset class="background-azul color-white"> Consultas:</fieldset>
+        <div class="content"> <label for="">Filtrar por:</label> </div>
+        <div class="content">
+            <div class="flex-item-1">
+                <div>
+                    <input id="DATASAIDAISNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio" value="DATASAIDAISNULL">
+                    <label for="DATASAIDAISNULL">Pessoas ainda presentes</label>
+                </div>
+            </div>
+
+            <div class="flex-item-1">
+                <div>
+                    <input id="DATASAIDANOTNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio" value="DATASAIDANOTNULL">
+                    <label for="DATASAIDANOTNULL">Pessoas que já deixaram o hotel </label>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="flex-item-1">
+                <label for=""> Nome </label>
+            </div>
+            <div class="flex-item-1">
+                <label for="">Documento</label>
+            </div>
+            <div class="flex-item-1">
+                <label for="">Valor Gasto</label>
+            </div>
+            <div class="flex-item-1">
+
+            </div>
+        </div>
+        <hr>
+        <div class="content linha" *ngFor="let item of this.checkins">
+            <div class="flex-item-1">
+                {{ item.pessoa.nome}}
+            </div>
+            <div class="flex-item-1">
+                {{ item.pessoa.documento}}
+            </div>
+            <div class="flex-item-1">
+                R$ {{ item.valorAPagar | number:'1.2-2'}}
+            </div>
+            <div class="flex-item-1">
+                <button class="btn" (click)="checkout(item)">
+                    Checkout &rarr;
+                </button>
+            </div>
+        </div>
+        <p class="alinhar-centro">
+            <button class="btn background-azul color-white" (click)="voltar()">
+                &larr; Previous
+            </button>
+            <button class="btn background-azul color-white" (click)="proximo()">
+                Next &rarr;
+            </button>
+        </p>
+    </form>
+</div>
