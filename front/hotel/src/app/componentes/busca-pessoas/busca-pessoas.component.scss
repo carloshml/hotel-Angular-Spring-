@@ -1,11 +1,13 @@
-.componente-busca-pessoas {
-    position: absolute;
-    height: 200px;
-    border: 2px solid #347ab6;
-    width: 100%;
-    background-color: white;   
- }
+.componente-busca-pessoas-wrappper {
+   position: relative;
+}
 
- .componente-busca-pessoas-wrappper {
-    position: relative;
- }
+.componente-busca-pessoas {
+   position: absolute;
+   height: 200px;
+   border: 2px solid #347ab6;
+   width: 100%;
+   background-color: white;
+   overflow: auto;
+   outline: 0;
+}

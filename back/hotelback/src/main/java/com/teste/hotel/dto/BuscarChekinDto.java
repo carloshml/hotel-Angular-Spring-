@@ -6,17 +6,35 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BuscarChekinDto {
 
-	Long id;
+	private Long id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	LocalDateTime dataSaida;
+	private LocalDateTime dataSaida;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	LocalDateTime dataEntrada;
+	private LocalDateTime dataEntrada;
 	
-	String  tipoPesquisa;
+	private String  tipoPesquisa;
 	
+	private int inicio;
 	
+	private int quantidade;
+
+	public int getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(int inicio) {
+		this.inicio = inicio;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
 
 	public String getTipoPesquisa() {
 		return tipoPesquisa;

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.teste.hotel.dto.BuscarChekinDto;
 import com.teste.hotel.entities.Checkin;
 import com.teste.hotel.repository.ChekinRepository;
-
+import org.springframework.data.domain.Sort;
 @RestController
 public class ChekinController {
 	@Autowired
@@ -39,10 +40,45 @@ public class ChekinController {
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	
+	
+	@RequestMapping(value = "/buscaTotalCheckinPaginado", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:4200")
+	public ResponseEntity<Long> buscaTotalCheckinPaginado(@RequestBody BuscarChekinDto buscarChekinDto) {
+
+		Long checkins = Long.valueOf("0");
+
+		switch (buscarChekinDto.getTipoPesquisa()) {		
+		case "DATASAIDAISNULL":
+			checkins = _checkinRepository.dataSaidaIsNullPaginado();
+			break;
+		case "DATASAIDANOTNULL":
+			checkins = _checkinRepository.dataSaidaNotNullPaginado();
+			break;
+
+		default:
+			break;
+		}
+		
+	 
+		
+		if (checkins == 0) {
+			return new ResponseEntity<Long>(checkins, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Long>(checkins, HttpStatus.OK);
+		}
+	}
 
 	@RequestMapping(value = "/buscarChekin", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<List<Checkin>> buscarChekin(@RequestBody BuscarChekinDto buscarChekinDto) {
+		
+		PageRequest pageRequest = PageRequest.of(
+				buscarChekinDto.getInicio(),
+				buscarChekinDto.getQuantidade(),
+                Sort.Direction.DESC,
+                "dataEntrada");
 
 		List<Checkin> checkins = new ArrayList<>();
 
@@ -57,11 +93,11 @@ public class ChekinController {
 			checkins = _checkinRepository.findAllByDataEntradaBetween(buscarChekinDto.getDataEntrada(),
 					buscarChekinDto.getDataSaida());
 			break;
-		case "DATASAIDAISNULL":
-			checkins = _checkinRepository.dataSaidaIsNull();
+		case "DATASAIDAISNULL":	
+			checkins = _checkinRepository.dataSaidaIsNull(pageRequest).getContent();
 			break;
 		case "DATASAIDANOTNULL":
-			checkins = _checkinRepository.dataSaidaNotNull();
+			checkins = _checkinRepository.dataSaidaNotNull(pageRequest).getContent();
 			break;
 
 		default:

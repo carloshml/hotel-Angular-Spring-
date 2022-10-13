@@ -10,12 +10,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { RequestService } from './services/request.service';
 import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PessoaCadastroComponent,
     BuscaPessoasComponent
+   
   ],
   imports: [
     BrowserModule,

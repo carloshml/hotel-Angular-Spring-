@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { Checkin } from '../entities/checkin';
 import { Pessoa } from '../entities/pessoa';
+import { Pager, PaginacaoService } from '../services/paginacao.service';
 import { RequestService } from '../services/request.service';
 
 @Component({
@@ -23,8 +24,8 @@ export class HomeComponent implements OnInit {
       }
     ),
     adicionalVeiculo: new FormControl(false),
-    dataEntrada: new FormControl('2022-10-26T11:01'),
-    dataSaida: new FormControl(),
+    dataEntrada: new FormControl(),
+    dataSaida: new FormControl(''),
   });
 
   pesquisaCheckinForm = new FormGroup({
@@ -35,37 +36,48 @@ export class HomeComponent implements OnInit {
   termoPesquisa: string;
   showBuscaPessoas: boolean;
   pessoaNaoSelecionada = true;
+  mensagem: string;
+  checkinSubscriber: any;
 
+  paginacaoServico = new PaginacaoService();
+  pagerClientes: Pager = new Pager();
+  pagedItemsClientes = [];
+
+  valorMaximoLinhasGrid = 3;
+  totalElementos = 0;
+  termoPesquisaCheckin = '';
   constructor(private router: Router, private request: RequestService) { }
 
   ngOnInit(): void {
-    this.buscarCheckins('DATASAIDAISNULL');
+
+    const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('.')[0];
+
+    this.checkinForm.get('dataEntrada')?.setValue(localISOTime);
+
+    console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
+
+    this.buscaCheckin('DATASAIDAISNULL');
 
     this.pesquisaCheckinForm
       .valueChanges
       .subscribe(tipoPesquisa => {
-
-        this.buscarCheckins('' + tipoPesquisa.tipoPesquisa);
-
+        this.termoPesquisaCheckin = '' + tipoPesquisa.tipoPesquisa;
+        this.buscaCheckin(this.termoPesquisaCheckin);
       });
 
-    this.checkinForm
-      .get('pessoa.nome')?.valueChanges
-      .pipe(
-        debounceTime(500)
-      )
-      .subscribe(termoPesquisa => {
-        this.showBuscaPessoas = false;
-        setTimeout(() => {
-          this.showBuscaPessoas = true;
-        }, 50);
-        this.termoPesquisa = '' + termoPesquisa;
-      });
-
+    this.buscarNovamente();
   }
 
+  atualizaData(check: string) {
+    if (!this.checkinForm.get(check)?.value) {
+      const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+      const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('.')[0];
+      this.checkinForm.get(check)?.setValue(localISOTime);
+    }
+  }
 
-  fecharBuscaPessoas(event: Pessoa) {
+  selecionarPessoa(event: Pessoa) {
     console.log(' fecharBuscaPessoas ::   ', event);
     this.checkinForm.get('pessoa')?.setValue(event);
     this.checkinForm.get('pessoa')?.disable();
@@ -74,37 +86,65 @@ export class HomeComponent implements OnInit {
   }
 
   buscarNovamente() {
+    if (this.checkinSubscriber) {
+      this.checkinSubscriber.unsubscribe();
+    }
+    this.checkinForm.get('pessoa')?.setValue({
+      id: new FormControl(),
+      nome: '',
+      documento: '',
+      telefone: '',
+    });
     this.checkinForm.get('pessoa')?.enable();
     this.pessoaNaoSelecionada = true;
-  }
-
-  async buscarCheckins(termoPesquisa: string) {
-    this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], termoPesquisa)
-      .subscribe((checkins: Checkin[]) => {
-
-        console.log(' checkins   ::   ', checkins);
- 
-        this.checkins = checkins;
+    this.showBuscaPessoas = false;
+    this.checkinSubscriber = this.checkinForm
+      .get('pessoa.nome')?.valueChanges
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe(termoPesquisa => {
+        this.showBuscaPessoas = false;
+        this.termoPesquisa = ('' + termoPesquisa).toUpperCase();
+        setTimeout(() => {
+          this.showBuscaPessoas = true;
+        }, 50);
       });
   }
 
 
-  salvar() {
-
+  salvarCheckin() {
     let checkin = this.checkinForm.getRawValue() as Checkin;
 
-    checkin.dataEntrada ? checkin.dataEntrada += ':00' : undefined;
-    checkin.dataSaida ? checkin.dataSaida += ':00' : undefined;
+
+    console.log(checkin);
+    console.log(new Date(checkin.dataEntrada), new Date(checkin.dataSaida), new Date(checkin.dataEntrada) > new Date(checkin.dataSaida));
+
+    if (checkin.dataSaida && (new Date(checkin.dataEntrada) > new Date(checkin.dataSaida))) {
+      this.mensagem = 'Atenção, Data de Entrada Maior que a Data Saida!';
+      setTimeout(() => {
+        this.mensagem = '';
+      }, 3000);
+      return;
+    }
+
+    if (!checkin.pessoa.nome) {
+      this.mensagem = 'Atenção, Selecione uma Pessoa!';
+      setTimeout(() => {
+        this.mensagem = '';
+      }, 3000);
+      return;
+    }
 
     console.log(checkin);
     console.log(JSON.stringify(checkin));
-
 
     this.request.salvarCheckin(checkin)
       .subscribe((checkins: Checkin[]) => {
         console.log('Checkin salvo   :: ', checkins);
         this.checkinForm.reset();
-        this.buscarCheckins('' + this.pesquisaCheckinForm.value.tipoPesquisa);
+        this.buscarNovamente();
+        this.buscaCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
       });
   }
 
@@ -116,12 +156,40 @@ export class HomeComponent implements OnInit {
     console.log(' item :: ', item);
   }
 
-  voltar() {
+  buscaCheckin(termoPesquisaCheckin: string) {
+    this.termoPesquisaCheckin = termoPesquisaCheckin;
+
+
+    this.request.buscaTotalCheckinPaginado(0, new Date().toISOString().split('.')[0],
+      new Date().toISOString().split('.')[0], this.termoPesquisaCheckin)
+      .subscribe((retornoTotalAtendimentos: number) => {
+        console.log(' retornoTotalAtendimentos ::   ', retornoTotalAtendimentos);
+        this.totalElementos = Number(retornoTotalAtendimentos).valueOf();
+        if (this.totalElementos > 0) {
+          this.pagerClientes.totalPages = 1;
+          this.setPageofClientes(1);
+        } else {
+          this.pagedItemsClientes = [];
+        }
+      });
 
   }
 
-  proximo() {
+  setPageofClientes(page: number) {
+    if (page < 1 || page > this.pagerClientes.totalPages) {
+      return;
+    }
+    // obter a paginacao através do serviço
+    this.pagerClientes = this.paginacaoServico.getPager(this.totalElementos, page, this.valorMaximoLinhasGrid);
 
+    console.log(' this.pagerClientes :: ', this.pagerClientes);
+    // obtem a pagina atual dos itens
+    this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], this.termoPesquisaCheckin,
+      (this.pagerClientes.currentPage - 1), this.valorMaximoLinhasGrid)
+      .subscribe((checkins: Checkin[]) => {
+        console.log(' checkins   ::   ', checkins);
+        this.checkins = checkins;
+      });
   }
 
 }

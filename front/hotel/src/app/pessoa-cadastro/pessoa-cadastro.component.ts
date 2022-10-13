@@ -28,9 +28,10 @@ export class PessoaCadastroComponent implements OnInit {
 
   salvar() {
 
-    let checkin = this.pessoaForm.getRawValue() as Pessoa;
+    let pessoa = this.pessoaForm.getRawValue() as Pessoa;
+    pessoa.nome = pessoa.nome.toUpperCase();
 
-    this.request.salvarPessoa(checkin)
+    this.request.salvarPessoa(pessoa)
     .subscribe((pessoa: Pessoa) => {
       console.log('Checkin salvo   :: ', pessoa);  
       this.router.navigate(['']);

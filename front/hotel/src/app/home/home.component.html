@@ -1,8 +1,14 @@
-<p>
-    <button class="btn background-azul color-white" (click)="incluirPessoa()">
+<div class="row">
+    <button class="flex-item-1 btn background-azul color-white" (click)="incluirPessoa()">
         Incluir Pessoa
     </button>
-</p>
+    <div class="flex-item-12 ">
+        <div *ngIf="this.mensagem" class="color-white btn background-vermelho">
+            {{this.mensagem}}
+        </div>
+    </div>
+</div>
+<div class="content"></div>
 <div>
     <form action="" [formGroup]="checkinForm">
         <fieldset class="background-azul color-white"> Novo Check in</fieldset>
@@ -10,31 +16,33 @@
         <div class="content">
             <div class="flex-item-1">
                 <div> <label for="">Data/Hora de Entrada</label> </div>
-                <input class="width-95" formControlName="dataEntrada" type="datetime-local">
+                <input class="width-95" #inputDataEntrada (focus)="atualizaData('dataEntrada')"
+                    formControlName="dataEntrada" type="datetime-local">
             </div>
 
             <div class="flex-item-1">
                 <div> <label for="">Data/Hora de Saída</label> </div>
-                <input class="width-95" formControlName="dataSaida" type="datetime-local">
+                <input class="width-95" #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
+                    type="datetime-local">
             </div>
         </div>
 
         <div class="content">
-            <div class="flex-item-1">
+            <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
                 <div> <label for="">Pessoa</label> </div>
                 <div *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
                     <div formGroupName="pessoa">
-                        <input class="width-95" formControlName="nome" type="text">
+                        <input class="width-95 maiusculas" formControlName="nome" type="text">
                     </div>
                     <div *ngIf="this.showBuscaPessoas">
                         <app-busca-pessoas [termoPesquisa]="this.termoPesquisa"
-                            (fecharBuscaPessoasEmitter)="fecharBuscaPessoas($event)"></app-busca-pessoas>
+                            (fecharBuscaPessoasEmitter)="selecionarPessoa($event)"></app-busca-pessoas>
                     </div>
                 </div>
                 <ng-template #pessoaSelecionada>
                     <div class="row ">
                         <div class="flex-item-12" formGroupName="pessoa">
-                            <input class="width-100" formControlName="nome" type="text">
+                            <input class="width-100 maiusculas" formControlName="nome" type="text">
                         </div>
                         <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
                         </button>
@@ -50,7 +58,7 @@
             </div>
         </div>
         <p class="alinhar-direita content">
-            <button class="btn background-azul color-white" (click)="salvar()">
+            <button class="btn background-azul color-white" (click)="salvarCheckin()">
                 salvar
             </button>
         </p>
@@ -66,14 +74,16 @@
         <div class="content">
             <div class="flex-item-1">
                 <div>
-                    <input id="DATASAIDAISNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio" value="DATASAIDAISNULL">
+                    <input id="DATASAIDAISNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
+                        value="DATASAIDAISNULL">
                     <label for="DATASAIDAISNULL">Pessoas ainda presentes</label>
                 </div>
             </div>
 
             <div class="flex-item-1">
                 <div>
-                    <input id="DATASAIDANOTNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio" value="DATASAIDANOTNULL">
+                    <input id="DATASAIDANOTNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
+                        value="DATASAIDANOTNULL">
                     <label for="DATASAIDANOTNULL">Pessoas que já deixaram o hotel </label>
                 </div>
             </div>
@@ -104,18 +114,32 @@
                 R$ {{ item.valorAPagar | number:'1.2-2'}}
             </div>
             <div class="flex-item-1">
-                <button class="btn" (click)="checkout(item)">
+                <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
                     Checkout &rarr;
                 </button>
             </div>
         </div>
-        <p class="alinhar-centro">
-            <button class="btn background-azul color-white" (click)="voltar()">
-                &larr; Previous
-            </button>
-            <button class="btn background-azul color-white" (click)="proximo()">
-                Next &rarr;
-            </button>
-        </p>
+        <div class="center col s8">
+            <!-- paginador -->
+            <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect ">
+                    <a (click)="setPageofClientes(1)">primeiro</a>
+                </li>
+                <li [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
+                    <a (click)="setPageofClientes(pagerClientes.currentPage - 1)">anterior</a>
+                </li>
+                <li *ngFor="let page of pagerClientes.pages"
+                    [ngClass]="{'active active2' :pagerClientes.currentPage === page}" class="waves-effect white-text ">
+                    <a (click)="setPageofClientes(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a (click)="setPageofClientes(pagerClientes.currentPage + 1)">próximo</a>
+                </li>
+                <li [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a (click)="setPageofClientes(pagerClientes.totalPages)">último</a>
+                </li>
+            </ul>
+            <!-- fim paginador -->
+        </div>       
     </form>
 </div>

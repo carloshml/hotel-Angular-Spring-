@@ -49,14 +49,17 @@ export class RequestService {
       )
   }
 
-  buscarCheckin(id: number, dataSaida: string, dataEntrada: string, tipoPesquisa: string) {
+  buscarCheckin(id: number, dataSaida: string, dataEntrada: string,
+    tipoPesquisa: string, inicio: number, quantidade: number) {
     return this.http
       .post<any>(`${this.API_URL}buscarChekin/`,
         {
           id,
           dataEntrada,
           dataSaida,
-          tipoPesquisa
+          tipoPesquisa,
+          inicio,
+          quantidade
         }
       )
       .pipe(
@@ -64,8 +67,36 @@ export class RequestService {
       )
   }
 
+  buscaTotalCheckinPaginado(id: number, dataSaida: string, dataEntrada: string,
+    tipoPesquisa: string) {
+
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post<number>(
+        `${this.API_URL}buscaTotalCheckinPaginado/`,
+        {
+          id,
+          dataEntrada,
+          dataSaida,
+          tipoPesquisa
+        },
+        {
+          headers,
+          params: { responseType: 'text' }
+        }
+      )
+      .pipe(
+        catchError(this.handleErrorPesquisa<number>('buscaTotalCheckinPaginado', 0))
+      )
+  }
+
   private handleErrorPesquisa<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+      console.log(error);
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
