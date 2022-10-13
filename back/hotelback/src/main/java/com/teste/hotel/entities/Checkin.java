@@ -112,6 +112,10 @@ public class Checkin implements Serializable {
 		
 		Long daysBetween = Long.valueOf("0");
 		for (Checkin checkin : checkins) {
+			
+			checkin.setDataEntrada(checkin.getDataEntrada().minusHours(checkin.getDataEntrada().getHour()));
+			checkin.setDataEntrada(checkin.getDataEntrada().minusMinutes(checkin.getDataEntrada().getMinute())); 
+			checkin.setDataEntrada(checkin.getDataEntrada().minusSeconds(checkin.getDataEntrada().getSecond())); 
 			if (checkin.getDataSaida() != null) {
 				daysBetween = Duration.between(checkin.getDataEntrada(), checkin.getDataSaida()).toDays();
 			} else {
