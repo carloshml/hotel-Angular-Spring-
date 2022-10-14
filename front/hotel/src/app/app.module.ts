@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RequestService } from './services/request.service';
 import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas.component';
 import { LoaderComponent } from './componentes/loader/loader.component';
+import { ModalCheckoutComponent } from './modais/modal-checkout/modal-checkout.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { LoaderComponent } from './componentes/loader/loader.component';
     HomeComponent,
     PessoaCadastroComponent,
     BuscaPessoasComponent,
-    LoaderComponent
+    LoaderComponent,
+    ModalCheckoutComponent
   ],
   imports: [
     BrowserModule,

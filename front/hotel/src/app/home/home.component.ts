@@ -46,19 +46,15 @@ export class HomeComponent implements OnInit {
   totalElementos = 0;
   termoPesquisaCheckin = '';
   showLoader: boolean;
+  checkinSelecionado: Checkin;
+  showCheckout: boolean;
   constructor(private router: Router, private request: RequestService) { }
 
   ngOnInit(): void {
-
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('.')[0];
-
     this.checkinForm.get('dataEntrada')?.setValue(localISOTime);
-
-    console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
-
     this.buscaCheckin('DATASAIDAISNULL');
-
     this.pesquisaCheckinForm
       .valueChanges
       .subscribe(tipoPesquisa => {
@@ -77,8 +73,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  selecionarPessoa(event: Pessoa) {
-    console.log(' fecharBuscaPessoas ::   ', event);
+  selecionarPessoa(event: Pessoa) {  
     this.checkinForm.get('pessoa')?.setValue(event);
     this.checkinForm.get('pessoa')?.disable();
     this.showBuscaPessoas = false;
@@ -117,11 +112,17 @@ export class HomeComponent implements OnInit {
     let checkin = this.checkinForm.getRawValue() as Checkin;
 
 
-    console.log(checkin);
-    console.log(new Date(checkin.dataEntrada), new Date(checkin.dataSaida), new Date(checkin.dataEntrada) > new Date(checkin.dataSaida));
-
     if (checkin.dataSaida && (new Date(checkin.dataEntrada) > new Date(checkin.dataSaida))) {
       this.mensagem = 'Atenção, Data de Entrada Maior que a Data Saida!';
+      setTimeout(() => {
+        this.mensagem = '';
+      }, 3000);
+      return;
+    }
+
+
+    if (!checkin.dataEntrada) {
+      this.mensagem = 'Atenção, Data Entrada Deve Ser Selecionada!';
       setTimeout(() => {
         this.mensagem = '';
       }, 3000);
@@ -134,16 +135,12 @@ export class HomeComponent implements OnInit {
         this.mensagem = '';
       }, 3000);
       return;
-    }
-
-    console.log(checkin);
-    console.log(JSON.stringify(checkin));
+    }  
 
     this.showLoader = true;
     this.request.salvarCheckin(checkin)
       .subscribe((checkins: Checkin[]) => {
-        this.showLoader = false;
-        console.log('Checkin salvo   :: ', checkins);
+        this.showLoader = false;       
         this.checkinForm.reset();
         this.buscarNovamente();
         this.buscaCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
@@ -155,7 +152,8 @@ export class HomeComponent implements OnInit {
   }
 
   checkout(item: Checkin) {
-    console.log(' item :: ', item);
+     this.checkinSelecionado = item;
+    this.showCheckout = true;
   }
 
   buscaCheckin(termoPesquisaCheckin: string) {
@@ -164,9 +162,7 @@ export class HomeComponent implements OnInit {
     this.showLoader = true;
     this.request.buscaTotalCheckinPaginado(0, new Date().toISOString().split('.')[0],
       new Date().toISOString().split('.')[0], this.termoPesquisaCheckin)
-      .subscribe((retornoTotalAtendimentos: number) => {
-        
-        console.log(' retornoTotalAtendimentos ::   ', retornoTotalAtendimentos);
+      .subscribe((retornoTotalAtendimentos: number) => {        
         this.totalElementos = Number(retornoTotalAtendimentos).valueOf();
         if (this.totalElementos > 0) {
           this.pagerClientes.totalPages = 1;
@@ -186,16 +182,25 @@ export class HomeComponent implements OnInit {
     // obter a paginacao através do serviço
     this.pagerClientes = this.paginacaoServico.getPager(this.totalElementos, page, this.valorMaximoLinhasGrid);
 
-    console.log(' this.pagerClientes :: ', this.pagerClientes);
+    
     // obtem a pagina atual dos itens
     this.showLoader = true;
     this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], this.termoPesquisaCheckin,
       (this.pagerClientes.currentPage - 1), this.valorMaximoLinhasGrid)
       .subscribe((checkins: Checkin[]) => {
         this.showLoader = false;
-        console.log(' checkins   ::   ', checkins);
+        
         this.checkins = checkins;
       });
+  }
+
+
+
+  fecharCheckout() {
+    this.showCheckout = false;
+    this.checkinForm.reset();
+    this.buscarNovamente();
+    this.buscaCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
   }
 
 }

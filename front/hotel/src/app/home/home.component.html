@@ -1,4 +1,5 @@
 <app-loader *ngIf="this.showLoader"></app-loader>
+<app-modal-checkout  *ngIf="showCheckout" [checkin]="this.checkinSelecionado"  (fecharCheckoutEmitter)="fecharCheckout()"  > </app-modal-checkout>
 <div class="row">
     <button class="flex-item-1 btn background-azul color-white" (click)="incluirPessoa()">
         Incluir Pessoa

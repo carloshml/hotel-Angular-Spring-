@@ -1,0 +1,30 @@
+<div class="conteudo-wrapper">
+    <div class="conteudo">
+        <div class="row">
+            <div class="flex-item-12 ">
+                <div *ngIf="this.mensagem" class="color-white btn background-vermelho">
+                    {{this.mensagem}}
+                </div>
+            </div>
+        </div>
+
+        <div class="alinhar-centro">
+            <h4>
+                Total a pagar R$ {{this.total | number:'1.2-2'}}
+            </h4>
+        </div>
+
+        <div class="content">
+            <div class="flex-item-1 alinhar-centro">
+                <button class="btn color-white background-azul" (click)="cancelar()">
+                    Cancelar;
+                </button>
+            </div>
+            <div class="flex-item-1 alinhar-centro">
+                <button class="btn   background-amarelo" (click)="checkout()">
+                    Checkout &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

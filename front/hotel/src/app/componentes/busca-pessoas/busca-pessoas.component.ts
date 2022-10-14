@@ -22,8 +22,7 @@ export class BuscaPessoasComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     this.request.buscarPessoas('' + this.termoPesquisa)
     .subscribe((pessoas : Pessoa[]) => {
-      this.showLoader = false;
-      console.log(' pessoas ::   ', pessoas);
+      this.showLoader = false;     
       this.pessoas = pessoas;
     });
   }

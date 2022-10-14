@@ -25,6 +25,7 @@ import org.springframework.data.domain.Sort;
 public class ChekinController {
 	@Autowired
 	private ChekinRepository _checkinRepository;
+	
 
 	@RequestMapping(value = "/chekin", method = RequestMethod.GET)
 	public List<Checkin> Get() {
@@ -83,6 +84,10 @@ public class ChekinController {
 		List<Checkin> checkins = new ArrayList<>();
 
 		switch (buscarChekinDto.getTipoPesquisa()) {
+		case "BY_ID":
+			Checkin chekin  = _checkinRepository.findById(buscarChekinDto.getId()).get();
+			checkins.add(chekin);
+			break;
 		case "MAIORQ":
 			checkins = _checkinRepository.findAllDataEntradaDepois(buscarChekinDto.getDataEntrada());
 			break;

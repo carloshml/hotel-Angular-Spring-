@@ -38,11 +38,10 @@ export class PessoaCadastroComponent implements OnInit {
     .subscribe((pessoa: Pessoa) => {
       this.showLoader = false;
       if(pessoa.nome){
-        console.log('Checkin salvo   :: ', pessoa);  
+      
         this.router.navigate(['']);
       }else{
         this.mensagem= 'Pessoa Não foi salva!';
-
         setTimeout(() => {
           this.mensagem= '';
         }, 3000);

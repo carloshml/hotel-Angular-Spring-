@@ -1,0 +1,19 @@
+.conteudo-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(86, 86, 143, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.conteudo {
+    border: 16px solid #347ab6;;
+    width: 50%;
+    height: 60%;
+    background: white;
+    display: block;
+    z-index: 10;
+}
