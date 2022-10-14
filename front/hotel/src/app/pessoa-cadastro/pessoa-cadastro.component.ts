@@ -19,6 +19,8 @@ export class PessoaCadastroComponent implements OnInit {
       telefone: new FormControl(''),
     }
   );
+  showLoader: boolean;
+  mensagem: string;
 
   constructor(private router: Router, private request: RequestService) { }
 
@@ -31,10 +33,20 @@ export class PessoaCadastroComponent implements OnInit {
     let pessoa = this.pessoaForm.getRawValue() as Pessoa;
     pessoa.nome = pessoa.nome.toUpperCase();
 
+    this.showLoader = true;
     this.request.salvarPessoa(pessoa)
     .subscribe((pessoa: Pessoa) => {
-      console.log('Checkin salvo   :: ', pessoa);  
-      this.router.navigate(['']);
+      this.showLoader = false;
+      if(pessoa.nome){
+        console.log('Checkin salvo   :: ', pessoa);  
+        this.router.navigate(['']);
+      }else{
+        this.mensagem= 'Pessoa Não foi salva!';
+
+        setTimeout(() => {
+          this.mensagem= '';
+        }, 3000);
+      }     
     });
   }
 

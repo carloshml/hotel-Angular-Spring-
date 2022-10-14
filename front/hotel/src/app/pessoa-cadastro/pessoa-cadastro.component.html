@@ -1,3 +1,11 @@
+<app-loader *ngIf="this.showLoader"></app-loader>
+<div class="row">
+    <div class="flex-item-12 ">
+        <div *ngIf="this.mensagem" class="color-white btn background-vermelho">
+            {{this.mensagem}}
+        </div>
+    </div>
+</div>
 <div>
     <form action="" [formGroup]="pessoaForm">
         <fieldset class="background-azul color-white"> Novo(a) Hospede</fieldset>
@@ -5,19 +13,19 @@
         <div class="content">
             <div class="flex-item-1">
                 <div> <label for="">Nome</label> </div>
-                <input class="width-95 maiusculas" f formControlName="nome" type="text">
+                <input class="maiusculas" f formControlName="nome" type="text">
             </div>
 
             <div class="flex-item-1">
                 <div> <label for="">Documento</label> </div>
-                <input class="width-95" f formControlName="documento" type="text">
+                <input formControlName="documento" type="text">
             </div>
         </div>
 
         <div class="content">
             <div class="flex-item-1">
                 <div> <label for="">Telefone</label> </div>
-                <input class="width-95" f formControlName="telefone" type="text">
+                <input formControlName="telefone" type="text">
             </div>
         </div>
 

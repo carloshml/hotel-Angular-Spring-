@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Pessoa } from 'src/app/entities/pessoa';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -7,21 +7,29 @@ import { RequestService } from 'src/app/services/request.service';
   templateUrl: './busca-pessoas.component.html',
   styleUrls: ['./busca-pessoas.component.scss']
 })
-export class BuscaPessoasComponent implements OnInit {
+export class BuscaPessoasComponent implements OnInit, OnDestroy {
 
 
   @Input() termoPesquisa : string; 
   @Output() fecharBuscaPessoasEmitter: EventEmitter<Pessoa> = new EventEmitter();
   pessoas: Pessoa[];
+  showLoader: boolean;
 
   constructor(private request: RequestService) { }
 
   ngOnInit(): void {
+
+    this.showLoader = true;
     this.request.buscarPessoas('' + this.termoPesquisa)
     .subscribe((pessoas : Pessoa[]) => {
+      this.showLoader = false;
       console.log(' pessoas ::   ', pessoas);
       this.pessoas = pessoas;
     });
+  }
+
+  ngOnDestroy(){
+    this.showLoader = false;
   }
 
   fechar(item : Pessoa){

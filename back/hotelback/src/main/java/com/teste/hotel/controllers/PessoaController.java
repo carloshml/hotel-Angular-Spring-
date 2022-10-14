@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,8 +55,15 @@ public class PessoaController {
 	@RequestMapping(value = "/pessoa/{termoPesquisa}", method = RequestMethod.GET)
 	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<List<Hospede>> buscarHospedes(@PathVariable(value = "termoPesquisa") String termoPesquisa) {
+		
+		
+		PageRequest pageRequest = PageRequest.of(
+				0,
+				5,
+                Sort.Direction.DESC,
+                "nome");
 
-		List<Hospede> hospedes = _pessoaRepository.findAllDataSaidaAnterior("%" + termoPesquisa + "%");
+		List<Hospede> hospedes = _pessoaRepository.findAllDataSaidaAnterior("%" + termoPesquisa + "%", pageRequest);
 
 		if (hospedes.isEmpty()) {
 			return new ResponseEntity<List<Hospede>>(hospedes, HttpStatus.NOT_FOUND);

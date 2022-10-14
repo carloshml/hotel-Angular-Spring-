@@ -9,6 +9,7 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
 import { HttpClientModule } from '@angular/common/http';
 import { RequestService } from './services/request.service';
 import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas.component';
+import { LoaderComponent } from './componentes/loader/loader.component';
 
 
 @NgModule({
@@ -16,8 +17,8 @@ import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas
     AppComponent,
     HomeComponent,
     PessoaCadastroComponent,
-    BuscaPessoasComponent
-   
+    BuscaPessoasComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -128,9 +128,10 @@ $tam-border-radius: 4px;
     text-align: center;
 
 }
-.disabled{
+
+.disabled {
     background: #96caf8 !important;
-} 
+}
 
 .pagination li {
     display: inline;
@@ -166,11 +167,20 @@ input[type="text"],
 input[type="datetime-local"],
 .btn {
     height: 30px;
+
+}
+
+input[type="text"],
+input[type="datetime-local"] {
+    height: 30px;
+
+    width: calc(100% - 15px);
 }
 
 input {
     border: 1px solid gray;
     border-radius: $tam-border-radius;
+
 }
 
 .width-95 {

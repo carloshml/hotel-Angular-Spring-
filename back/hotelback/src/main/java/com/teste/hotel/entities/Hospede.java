@@ -24,7 +24,7 @@ public class Hospede implements Serializable {
 	@Size(min = 1, message = "Nome deve ser informado")
 	private String nome;
 
-	@Column(nullable = false)
+	@Column(unique = true,  nullable = false)
 	private String documento;
 
 	@Column(nullable = false)

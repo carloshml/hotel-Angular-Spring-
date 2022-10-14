@@ -1,3 +1,4 @@
+<app-loader *ngIf="this.showLoader"></app-loader>
 <div class="row">
     <button class="flex-item-1 btn background-azul color-white" (click)="incluirPessoa()">
         Incluir Pessoa
@@ -16,13 +17,13 @@
         <div class="content">
             <div class="flex-item-1">
                 <div> <label for="">Data/Hora de Entrada</label> </div>
-                <input class="width-95" #inputDataEntrada (focus)="atualizaData('dataEntrada')"
-                    formControlName="dataEntrada" type="datetime-local">
+                <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
+                    type="datetime-local">
             </div>
 
             <div class="flex-item-1">
                 <div> <label for="">Data/Hora de Saída</label> </div>
-                <input class="width-95" #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
+                <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
                     type="datetime-local">
             </div>
         </div>
@@ -32,7 +33,7 @@
                 <div> <label for="">Pessoa</label> </div>
                 <div *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
                     <div formGroupName="pessoa">
-                        <input class="width-95 maiusculas" formControlName="nome" type="text">
+                        <input class=" maiusculas" formControlName="nome" type="text">
                     </div>
                     <div *ngIf="this.showBuscaPessoas">
                         <app-busca-pessoas [termoPesquisa]="this.termoPesquisa"
@@ -119,7 +120,7 @@
                 </button>
             </div>
         </div>
-        <div class="center col s8">
+        <div *ngIf="checkins.length > 0" class="center col s8">
             <!-- paginador -->
             <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
                 <li [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect ">
@@ -140,6 +141,6 @@
                 </li>
             </ul>
             <!-- fim paginador -->
-        </div>       
+        </div>
     </form>
 </div>

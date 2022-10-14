@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
     tipoPesquisa: new FormControl('DATASAIDAISNULL')
   });
 
-  checkins: Checkin[];
+  checkins: Checkin[] = [];
   termoPesquisa: string;
   showBuscaPessoas: boolean;
   pessoaNaoSelecionada = true;
@@ -41,11 +41,11 @@ export class HomeComponent implements OnInit {
 
   paginacaoServico = new PaginacaoService();
   pagerClientes: Pager = new Pager();
-  pagedItemsClientes = [];
 
   valorMaximoLinhasGrid = 3;
   totalElementos = 0;
   termoPesquisaCheckin = '';
+  showLoader: boolean;
   constructor(private router: Router, private request: RequestService) { }
 
   ngOnInit(): void {
@@ -139,8 +139,10 @@ export class HomeComponent implements OnInit {
     console.log(checkin);
     console.log(JSON.stringify(checkin));
 
+    this.showLoader = true;
     this.request.salvarCheckin(checkin)
       .subscribe((checkins: Checkin[]) => {
+        this.showLoader = false;
         console.log('Checkin salvo   :: ', checkins);
         this.checkinForm.reset();
         this.buscarNovamente();
@@ -159,17 +161,19 @@ export class HomeComponent implements OnInit {
   buscaCheckin(termoPesquisaCheckin: string) {
     this.termoPesquisaCheckin = termoPesquisaCheckin;
 
-
+    this.showLoader = true;
     this.request.buscaTotalCheckinPaginado(0, new Date().toISOString().split('.')[0],
       new Date().toISOString().split('.')[0], this.termoPesquisaCheckin)
       .subscribe((retornoTotalAtendimentos: number) => {
+        
         console.log(' retornoTotalAtendimentos ::   ', retornoTotalAtendimentos);
         this.totalElementos = Number(retornoTotalAtendimentos).valueOf();
         if (this.totalElementos > 0) {
           this.pagerClientes.totalPages = 1;
           this.setPageofClientes(1);
         } else {
-          this.pagedItemsClientes = [];
+          this.showLoader = false;
+          this.checkins = [];
         }
       });
 
@@ -184,9 +188,11 @@ export class HomeComponent implements OnInit {
 
     console.log(' this.pagerClientes :: ', this.pagerClientes);
     // obtem a pagina atual dos itens
+    this.showLoader = true;
     this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], this.termoPesquisaCheckin,
       (this.pagerClientes.currentPage - 1), this.valorMaximoLinhasGrid)
       .subscribe((checkins: Checkin[]) => {
+        this.showLoader = false;
         console.log(' checkins   ::   ', checkins);
         this.checkins = checkins;
       });
