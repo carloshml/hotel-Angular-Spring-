@@ -20,7 +20,9 @@ $tam-border-radius: 4px;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 60px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     display: flex;
     align-items: center;
     background-color: #199580;
@@ -59,6 +61,17 @@ $tam-border-radius: 4px;
 
 .row {
     display: flex;
+}
+
+.barra-menu {
+    border-bottom: 2px solid white;
+    margin: 0 3px 8px 12px;
+    width: 31px;
+}
+
+.flex-menu {
+    cursor: pointer;
+    flex: 0;
 }
 
 .flex-item-1 {
@@ -137,7 +150,7 @@ $tam-border-radius: 4px;
     display: inline;
     margin: 2px 9px;
     background: #347ab6;
-    padding: 5px;
+    padding: 5px 12px;
     border-radius: 4px;
     color: white;
 }
@@ -197,4 +210,97 @@ input {
 
 .mouse {
     cursor: pointer;
+}
+
+.menu-wrapper {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 100vw;
+    background-color: rgba(86, 86, 143, 0.3);
+    display: flex;
+}
+
+.menu {
+    background-color: white;
+    border-right: 4px solid  #e4fdf9;
+    width: 30%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+.menu-item:link,
+.menu-item:visited,
+.menu-item:focus,
+.menu-item:hover,
+.menu-item:active {
+    color: #199580;
+    border-bottom: 1px solid #199580;
+}
+
+.menu-item {
+    color: #199580;
+    border-bottom: 1px solid #199580;
+    margin: 20px 0;
+    padding-left: 40px;
+    font-weight: 600;
+    display: block;
+    text-decoration: none;
+    width: 200px;
+}
+
+.menu-in {
+    -webkit-animation: menu-in-ani 0.5s linear;
+    /* Safari */
+    animation: menu-in-ani 0.5s linear;
+}
+
+.menu-out {
+    -webkit-animation: menu-out-ani 0.5s linear;
+    /* Safari */
+    animation: menu-out-ani 0.5s linear;
+}
+
+/* Safari */
+@-webkit-keyframes menu-in-ani {
+    0% {
+        -webkit-width: 0%;
+    }
+
+    100% {
+        -webkit-width: 30%;
+    }
+}
+
+@keyframes menu-in-ani {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 30%;
+    }
+}
+
+
+/* Safari */
+@-webkit-keyframes menu-out-ani {
+    0% {
+        -webkit-width: 30%;
+    }
+
+    100% {
+        -webkit-width: 0%;
+    }
+}
+
+@keyframes menu-out-ani {
+    0% {
+        width: 30%;
+    }
+
+    100% {
+        width: 0%;
+    }
 }

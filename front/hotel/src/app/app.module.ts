@@ -11,6 +11,7 @@ import { RequestService } from './services/request.service';
 import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas.component';
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { ModalCheckoutComponent } from './modais/modal-checkout/modal-checkout.component';
+import { MenuComponent } from './componentes/menu/menu.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ModalCheckoutComponent } from './modais/modal-checkout/modal-checkout.c
     PessoaCadastroComponent,
     BuscaPessoasComponent,
     LoaderComponent,
-    ModalCheckoutComponent
+    ModalCheckoutComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
