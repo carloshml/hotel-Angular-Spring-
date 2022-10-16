@@ -124,21 +124,21 @@
         <div *ngIf="checkins.length > 0" class="center col s8">
             <!-- paginador -->
             <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
-                <li [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect ">
-                    <a (click)="setPageofClientes(1)">primeiro</a>
+                <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect ">
+                    <a >primeiro</a>
                 </li>
-                <li [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
-                    <a (click)="setPageofClientes(pagerClientes.currentPage - 1)">anterior</a>
+                <li (click)="setPageofClientes(pagerClientes.currentPage - 1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
+                    <a >anterior</a>
                 </li>
-                <li *ngFor="let page of pagerClientes.pages"
+                <li  (click)="setPageofClientes(page)" *ngFor="let page of pagerClientes.pages"
                     [ngClass]="{'active active2' :pagerClientes.currentPage === page}" class="waves-effect white-text ">
-                    <a (click)="setPageofClientes(page)">{{page}}</a>
+                    <a >{{page}}</a>
                 </li>
-                <li [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a (click)="setPageofClientes(pagerClientes.currentPage + 1)">próximo</a>
+                <li (click)="setPageofClientes(pagerClientes.currentPage + 1)" [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a >próximo</a>
                 </li>
-                <li [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a (click)="setPageofClientes(pagerClientes.totalPages)">último</a>
+                <li  (click)="setPageofClientes(pagerClientes.totalPages)" [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a >último</a>
                 </li>
             </ul>
             <!-- fim paginador -->
