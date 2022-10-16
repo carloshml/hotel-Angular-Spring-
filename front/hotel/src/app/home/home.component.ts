@@ -15,7 +15,7 @@ import { RequestService } from '../services/request.service';
 export class HomeComponent implements OnInit {
 
   checkinForm = new FormGroup({
-    pessoa: new FormGroup(
+    hospede: new FormGroup(
       {
         id: new FormControl(),
         nome: new FormControl(''),
@@ -74,8 +74,8 @@ export class HomeComponent implements OnInit {
   }
 
   selecionarPessoa(event: Pessoa) {  
-    this.checkinForm.get('pessoa')?.setValue(event);
-    this.checkinForm.get('pessoa')?.disable();
+    this.checkinForm.get('hospede')?.setValue(event);
+    this.checkinForm.get('hospede')?.disable();
     this.showBuscaPessoas = false;
     this.pessoaNaoSelecionada = false;
   }
@@ -84,17 +84,17 @@ export class HomeComponent implements OnInit {
     if (this.checkinSubscriber) {
       this.checkinSubscriber.unsubscribe();
     }
-    this.checkinForm.get('pessoa')?.setValue({
+    this.checkinForm.get('hospede')?.setValue({
       id: new FormControl(),
       nome: '',
       documento: '',
       telefone: '',
     });
-    this.checkinForm.get('pessoa')?.enable();
+    this.checkinForm.get('hospede')?.enable();
     this.pessoaNaoSelecionada = true;
     this.showBuscaPessoas = false;
     this.checkinSubscriber = this.checkinForm
-      .get('pessoa.nome')?.valueChanges
+      .get('hospede.nome')?.valueChanges
       .pipe(
         debounceTime(500)
       )
@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    if (!checkin.pessoa.nome) {
+    if (!checkin.hospede.nome) {
       this.mensagem = 'Atenção, Selecione uma Pessoa!';
       setTimeout(() => {
         this.mensagem = '';
@@ -172,7 +172,6 @@ export class HomeComponent implements OnInit {
           this.checkins = [];
         }
       });
-
   }
 
   setPageofClientes(page: number) {

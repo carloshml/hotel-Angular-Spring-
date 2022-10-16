@@ -1,9 +1,10 @@
 package com.teste.hotel.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,22 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teste.hotel.entities.Checkin;
+import com.teste.hotel.commun.Util;
 import com.teste.hotel.entities.Hospede;
 import com.teste.hotel.repository.PessoaRepository;
 
 @RestController
-public class PessoaController {
+public class HospedeController {
 	@Autowired
 	private PessoaRepository _pessoaRepository;
 
-	@RequestMapping(value = "/pessoa", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/hospede", method = RequestMethod.GET)
 	public List<Hospede> Get() {
 		return _pessoaRepository.findAll();
 	}
 
-	@RequestMapping(value = "/pessoaById/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/hospedeById/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Hospede> GetById(@PathVariable(value = "id") long id) {
 		Optional<Hospede> pessoa = _pessoaRepository.findById(id);
 		if (pessoa.isPresent())
@@ -40,31 +40,23 @@ public class PessoaController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "/pessoa", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:4200")
-	public ResponseEntity<Hospede> Post(@Valid @RequestBody Hospede pessoa) {
+	@RequestMapping(value = "/hospede", method = RequestMethod.POST)
+	public ResponseEntity<Hospede> Post(@Valid @RequestBody Hospede hospede) {
+		hospede.setNome(hospede.getNome().toUpperCase());
 		try {
-			_pessoaRepository.save(pessoa);
-
-			return new ResponseEntity<Hospede>(pessoa, HttpStatus.OK);
+			_pessoaRepository.save(hospede);
+			return new ResponseEntity<Hospede>(hospede, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(pessoa, HttpStatus.INTERNAL_SERVER_ERROR);
+			hospede.setMsgDetalhe(new Util().getCauseMessage(e.getCause()));
+			return new ResponseEntity<>(hospede, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@RequestMapping(value = "/pessoa/{termoPesquisa}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/hospede/{termoPesquisa}", method = RequestMethod.GET)
 	public ResponseEntity<List<Hospede>> buscarHospedes(@PathVariable(value = "termoPesquisa") String termoPesquisa) {
-		
-		
-		PageRequest pageRequest = PageRequest.of(
-				0,
-				5,
-                Sort.Direction.DESC,
-                "nome");
 
+		PageRequest pageRequest = PageRequest.of(0, 5, Sort.Direction.DESC, "nome");
 		List<Hospede> hospedes = _pessoaRepository.findAllDataSaidaAnterior("%" + termoPesquisa + "%", pageRequest);
-
 		if (hospedes.isEmpty()) {
 			return new ResponseEntity<List<Hospede>>(hospedes, HttpStatus.NOT_FOUND);
 		} else {
@@ -73,7 +65,7 @@ public class PessoaController {
 
 	}
 
-	@RequestMapping(value = "/pessoa/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/hospede/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Hospede> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Hospede newPessoa) {
 		Optional<Hospede> oldPessoa = _pessoaRepository.findById(id);
 		if (oldPessoa.isPresent()) {
@@ -85,7 +77,7 @@ public class PessoaController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "/pessoa/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/hospede/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id) {
 		Optional<Hospede> pessoa = _pessoaRepository.findById(id);
 		if (pessoa.isPresent()) {

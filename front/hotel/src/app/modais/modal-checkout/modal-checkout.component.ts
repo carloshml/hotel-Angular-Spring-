@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Checkin } from 'src/app/entities/checkin';
-import { Pessoa } from 'src/app/entities/pessoa';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({

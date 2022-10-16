@@ -33,7 +33,7 @@
             <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
                 <div> <label for="">Pessoa</label> </div>
                 <div *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
-                    <div formGroupName="pessoa">
+                    <div formGroupName="hospede">
                         <input class=" maiusculas" formControlName="nome" type="text">
                     </div>
                     <div *ngIf="this.showBuscaPessoas">
@@ -43,7 +43,7 @@
                 </div>
                 <ng-template #pessoaSelecionada>
                     <div class="row ">
-                        <div class="flex-item-12" formGroupName="pessoa">
+                        <div class="flex-item-12" formGroupName="hospede">
                             <input class="width-100 maiusculas" formControlName="nome" type="text">
                         </div>
                         <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
@@ -107,10 +107,10 @@
         <hr>
         <div class="content linha" *ngFor="let item of this.checkins">
             <div class="flex-item-1">
-                {{ item.pessoa.nome}}
+                {{ item.hospede.nome}}
             </div>
             <div class="flex-item-1">
-                {{ item.pessoa.documento}}
+                {{ item.hospede.documento}}
             </div>
             <div class="flex-item-1">
                 R$ {{ item.valorAPagar | number:'1.2-2'}}

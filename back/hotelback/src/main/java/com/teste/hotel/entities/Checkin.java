@@ -35,7 +35,7 @@ public class Checkin implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_hospede")
-	Hospede pessoa;
+	Hospede hospede;
 
 	@Column(nullable = false)
 	boolean adicionalVeiculo;
@@ -49,6 +49,8 @@ public class Checkin implements Serializable {
 	private LocalDateTime dataSaida;
 
 	private BigDecimal valorAPagar;
+	
+	private String msgDetalhe;
 
 	public Checkin() {
 		this.valorAPagar = BigDecimal.ZERO;
@@ -68,14 +70,14 @@ public class Checkin implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	} 
+
+	public Hospede getHospede() {
+		return hospede;
 	}
 
-	public Hospede getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Hospede pessoa) {
-		this.pessoa = pessoa;
+	public void setHospede(Hospede hospede) {
+		this.hospede = hospede;
 	}
 
 	public boolean getAdicionalVeiculo() {
@@ -100,6 +102,16 @@ public class Checkin implements Serializable {
 
 	public void setDataSaida(LocalDateTime dataSaida) {
 		this.dataSaida = dataSaida;
+	}
+	
+	
+
+	public String getMsgDetalhe() {
+		return msgDetalhe;
+	}
+
+	public void setMsgDetalhe(String msgDetalhe) {
+		this.msgDetalhe = msgDetalhe;
 	}
 
 	public void calcularValorPago(List<Checkin> checkins) {

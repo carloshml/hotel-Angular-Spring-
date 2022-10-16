@@ -2,7 +2,7 @@ import { Pessoa } from "./pessoa";
 
 export class Checkin {
     id: number;
-    pessoa: Pessoa;
+    hospede: Pessoa;
     adicionalVeiculo: true;
     dataEntrada: string;
     dataSaida: string;

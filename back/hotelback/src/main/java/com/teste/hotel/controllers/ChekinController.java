@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teste.hotel.commun.Util;
 import com.teste.hotel.dto.BuscarChekinDto;
 import com.teste.hotel.entities.Checkin;
+import com.teste.hotel.entities.Hospede;
 import com.teste.hotel.repository.ChekinRepository;
 import org.springframework.data.domain.Sort;
 @RestController
@@ -33,7 +35,6 @@ public class ChekinController {
 	}
 
 	@RequestMapping(value = "/chekin/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<Checkin> GetById(@PathVariable(value = "id") long id) {
 		Optional<Checkin> pessoa = _checkinRepository.findById(id);
 		if (pessoa.isPresent())
@@ -45,7 +46,6 @@ public class ChekinController {
 	
 	
 	@RequestMapping(value = "/buscaTotalCheckinPaginado", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<Long> buscaTotalCheckinPaginado(@RequestBody BuscarChekinDto buscarChekinDto) {
 
 		Long checkins = Long.valueOf("0");
@@ -72,7 +72,6 @@ public class ChekinController {
 	}
 
 	@RequestMapping(value = "/buscarChekin", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<List<Checkin>> buscarChekin(@RequestBody BuscarChekinDto buscarChekinDto) {
 		
 		PageRequest pageRequest = PageRequest.of(
@@ -122,9 +121,15 @@ public class ChekinController {
 	}
 
 	@RequestMapping(value = "/chekin", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:4200")
-	public Checkin Post(@Valid @RequestBody Checkin checkin) {
-		return _checkinRepository.save(checkin);
+	public ResponseEntity<Checkin> Post(@Valid @RequestBody Checkin checkin) {
+		
+		try {
+			return  new ResponseEntity<>( _checkinRepository.save(checkin), HttpStatus.OK);
+		} catch (Exception e) {
+			checkin.setMsgDetalhe(new Util().getCauseMessage(e.getCause()));
+			return new ResponseEntity<>(checkin, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	
 	}
 
 	@RequestMapping(value = "/chekin/{id}", method = RequestMethod.PUT)
@@ -134,7 +139,7 @@ public class ChekinController {
 			Checkin antigo = oldPessoa.get();
 			antigo.setDataEntrada(novo.getDataEntrada());
 			antigo.setDataSaida(novo.getDataSaida());
-			antigo.setPessoa(novo.getPessoa());
+			antigo.setHospede(novo.getHospede());
 			antigo.setAdicionalVeiculo(false);
 			_checkinRepository.save(antigo);
 			return new ResponseEntity<Checkin>(antigo, HttpStatus.OK);

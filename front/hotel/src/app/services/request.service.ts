@@ -26,7 +26,7 @@ export class RequestService {
 
   salvarPessoa(pessoa: Pessoa) {
     return this.http
-      .post<any>(`${this.API_URL}pessoa/`, pessoa)
+      .post<any>(`${this.API_URL}hospede/`, pessoa)
       .pipe(
         catchError(this.handleErrorPesquisa<Pessoa>('salvarPessoa', new Pessoa()))
       )
@@ -35,7 +35,7 @@ export class RequestService {
 
   buscarPessoas(termoPesquisa: string) {
     return this.http
-      .get<any>(`${this.API_URL}pessoa/${termoPesquisa}`)
+      .get<any>(`${this.API_URL}hospede/${termoPesquisa}`)
       .pipe(
         catchError(this.handleErrorPesquisa<Pessoa[]>('buscarPessoas', []))
       )

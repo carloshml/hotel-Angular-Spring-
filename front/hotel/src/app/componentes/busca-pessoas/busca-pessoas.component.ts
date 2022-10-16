@@ -10,7 +10,7 @@ import { RequestService } from 'src/app/services/request.service';
 export class BuscaPessoasComponent implements OnInit, OnDestroy {
 
 
-  @Input() termoPesquisa : string; 
+  @Input() termoPesquisa: string;
   @Output() fecharBuscaPessoasEmitter: EventEmitter<Pessoa> = new EventEmitter();
   pessoas: Pessoa[];
   showLoader: boolean;
@@ -21,17 +21,18 @@ export class BuscaPessoasComponent implements OnInit, OnDestroy {
 
     this.showLoader = true;
     this.request.buscarPessoas('' + this.termoPesquisa)
-    .subscribe((pessoas : Pessoa[]) => {
-      this.showLoader = false;     
-      this.pessoas = pessoas;
-    });
+      .subscribe((pessoas: Pessoa[]) => {
+        this.showLoader = false;
+        this.pessoas = pessoas;
+      });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.showLoader = false;
   }
 
-  fechar(item : Pessoa){
+  fechar(item: Pessoa) {
+    delete item.msgDetalhe;
     this.fecharBuscaPessoasEmitter.emit(item);
   }
 

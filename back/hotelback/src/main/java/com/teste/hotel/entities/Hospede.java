@@ -30,6 +30,8 @@ public class Hospede implements Serializable {
 	@Column(nullable = false)
 	private String telefone;
 
+	private String msgDetalhe;
+	
 	public long getId() {
 		return id;
 	}
@@ -61,6 +63,17 @@ public class Hospede implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
+
+	public String getMsgDetalhe() {
+		return msgDetalhe;
+	}
+
+	public void setMsgDetalhe(String msgDetalhe) {
+		this.msgDetalhe = msgDetalhe;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}	
 	
 }
