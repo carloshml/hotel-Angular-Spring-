@@ -1,4 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+# Created by https://www.toptal.com/developers/gitignore/api/angular
+# Edit at https://www.toptal.com/developers/gitignore?templates=angular
 
 # Compiled output
 /dist
@@ -39,4 +41,24 @@ testem.log
 
 # System files
 .DS_Store
-Thumbs.db
+Thumbs.db 
+
+### Angular ### 
+# compiled output 
+app/**/*.js
+app/**/*.js.map
+
+# dependencies 
+bower_components/ 
+
+# misc 
+connect.lock/ 
+libpeerconnection.log/
+npm-debug.log 
+typings/
+.angular/
+
+# e2e
+e2e/*.js
+e2e/*.map 
+ 
