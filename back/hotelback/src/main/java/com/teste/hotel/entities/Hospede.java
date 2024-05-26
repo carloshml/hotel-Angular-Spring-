@@ -24,7 +24,7 @@ public class Hospede implements Serializable {
 	@Size(min = 1, message = "Nome deve ser informado")
 	private String nome;
 
-	@Column(unique = true,  nullable = false)
+	@Column(unique = true, nullable = false)
 	private String documento;
 
 	@Column(nullable = false)
@@ -32,6 +32,17 @@ public class Hospede implements Serializable {
 
 	private String msgDetalhe;
 	
+	public Hospede() {
+		
+	}
+
+	public Hospede(String nome, String documento, String telefone, String msgDetalhe) {
+		this.nome = nome;
+		this.documento = documento;
+		this.telefone = telefone;
+		this.msgDetalhe = msgDetalhe;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -40,8 +51,8 @@ public class Hospede implements Serializable {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String nome) {		
+		this.nome = nome.toUpperCase();
 	}
 
 	public void setId(long id) {
@@ -74,6 +85,6 @@ public class Hospede implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}	
-	
+	}
+
 }

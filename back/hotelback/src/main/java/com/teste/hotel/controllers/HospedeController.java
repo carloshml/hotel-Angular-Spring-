@@ -8,12 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.teste.hotel.commun.Util;
 import com.teste.hotel.entities.Hospede;
 import com.teste.hotel.repository.PessoaRepository;
@@ -25,12 +20,12 @@ public class HospedeController {
 	@Autowired
 	private PessoaRepository _pessoaRepository;
 
-	@RequestMapping(value = "/hospede", method = RequestMethod.GET)
+	@GetMapping("/hospede")
 	public List<Hospede> Get() {
 		return _pessoaRepository.findAll();
 	}
 
-	@RequestMapping(value = "/hospedeById/{id}", method = RequestMethod.GET)
+	@GetMapping("/hospedeById/{id}")
 	public ResponseEntity<Hospede> GetById(@PathVariable(value = "id") long id) {
 		Optional<Hospede> pessoa = _pessoaRepository.findById(id);
 		if (pessoa.isPresent())
@@ -39,9 +34,8 @@ public class HospedeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value = "/hospede", method = RequestMethod.POST)
-	public ResponseEntity<Hospede> Post(@Valid @RequestBody Hospede hospede) {
-		hospede.setNome(hospede.getNome().toUpperCase());
+	@PostMapping("/hospede")
+	public ResponseEntity<Hospede> Post(@Valid @RequestBody Hospede hospede) {		 
 		try {
 			_pessoaRepository.save(hospede);
 			return new ResponseEntity<Hospede>(hospede, HttpStatus.OK);
