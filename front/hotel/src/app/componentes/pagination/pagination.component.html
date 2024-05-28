@@ -1,0 +1,20 @@
+<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+    <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pager.currentPage === 1}" class="  ">
+        <a class="btn">primeiro</a>
+    </li>
+    <li (click)="setPageofClientes(pager.currentPage - 1)" [ngClass]="{disabled:pager.currentPage === 1}" class=" ">
+        <a class="btn">anterior</a>
+    </li>
+    <li (click)="setPageofClientes(page)" *ngFor="let page of pager.pages" class="  white-text "
+        [ngClass]="{'active' :pager.currentPage === page}">
+        <a class="btn">{{page}}</a>
+    </li>
+    <li (click)="setPageofClientes(pager.currentPage + 1)" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
+        class="  ">
+        <a class="btn">próximo</a>
+    </li>
+    <li (click)="setPageofClientes(pager.totalPages)" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
+        class="  ">
+        <a class="btn"> último</a>
+    </li>
+</ul>

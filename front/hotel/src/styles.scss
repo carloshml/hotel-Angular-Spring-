@@ -102,9 +102,9 @@ $tam-border-radius: 4px;
 /* Responsive layout - makes a one column layout instead of a two-column layout */
 @media (max-width: 800px) {
     .content {
-      flex-direction: column;
+        flex-direction: column;
     }
-  }
+}
 
 .row {
     display: flex;
@@ -189,38 +189,25 @@ $tam-border-radius: 4px;
 
 .pagination {
     text-align: center;
-
 }
 
-.disabled {
-    background: #96caf8 !important;
-}
 
-.pagination li {
-    display: inline;
-    margin: 2px 9px;
-    background: #347ab6;
-    padding: 5px 12px;
-    border-radius: 4px;
-    color: white;
-}
 
 fieldset,
 form {
-    border-radius: 5px;
+    border-radius: $tam-border-radius;
 }
 
 fieldset {
     margin: 0;
     padding: 10px;
     border: none;
-    border-radius: 2px;
+    border-radius: $tam-border-radius;
 }
 
 form {
     border: 2px solid #347ab6;
 }
-
 
 input:disabled {
     background-color: rgb(218, 216, 216);

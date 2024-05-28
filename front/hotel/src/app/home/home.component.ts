@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs';
 import { Checkin } from '../entities/checkin';
 import { Pessoa } from '../entities/pessoa';
 import { Pager, PaginacaoService } from '../services/paginacao.service';
@@ -40,7 +39,7 @@ export class HomeComponent implements OnInit {
   checkinSubscriber: any;
 
   paginacaoServico = new PaginacaoService();
-  pagerClientes: Pager = new Pager();
+  pager: Pager = new Pager();
 
   valorMaximoLinhasGrid = 3;
   totalElementos = 0;
@@ -74,11 +73,7 @@ export class HomeComponent implements OnInit {
   selecionarPessoa(event: Pessoa) {
     this.checkinForm.get('hospede')?.setValue(event);
     this.checkinForm.get('hospede')?.disable();
-
   }
-
-
-
 
   salvarCheckin() {
     let checkin = this.checkinForm.getRawValue() as Checkin;
@@ -91,8 +86,6 @@ export class HomeComponent implements OnInit {
       }, 3000);
       return;
     }
-
-
     if (!checkin.dataEntrada) {
       this.mensagem = 'Atenção, Data Entrada Deve Ser Selecionada!';
       setTimeout(() => {
@@ -100,7 +93,6 @@ export class HomeComponent implements OnInit {
       }, 3000);
       return;
     }
-
     if (!checkin.hospede.nome) {
       this.mensagem = 'Atenção, Selecione uma Pessoa!';
       setTimeout(() => {
@@ -135,7 +127,7 @@ export class HomeComponent implements OnInit {
       .subscribe((retornoTotalAtendimentos: number) => {
         this.totalElementos = Number(retornoTotalAtendimentos).valueOf();
         if (this.totalElementos > 0) {
-          this.pagerClientes.totalPages = 1;
+          this.pager.totalPages = 1;
           this.setPageofClientes(1);
         } else {
           this.checkins = [];
@@ -145,27 +137,22 @@ export class HomeComponent implements OnInit {
     this.showLoader = false;
   }
 
-  setPageofClientes(page: number) {
-    if (page < 1 || page > this.pagerClientes.totalPages) {
+  setPageofClientes(page: any) { 
+    if (page < 1 || page > this.pager.totalPages) {
       return;
     }
     // obter a paginacao através do serviço
-    this.pagerClientes = this.paginacaoServico.getPager(this.totalElementos, page, this.valorMaximoLinhasGrid);
-
-
+    this.pager = this.paginacaoServico.getPager(this.totalElementos, page, this.valorMaximoLinhasGrid);
     // obtem a pagina atual dos itens
     this.showLoader = true;
     this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], this.termoPesquisaCheckin,
-      (this.pagerClientes.currentPage - 1), this.valorMaximoLinhasGrid)
+      (this.pager.currentPage - 1), this.valorMaximoLinhasGrid)
       .subscribe((checkins: Checkin[]) => {
         this.showLoader = false;
-
         this.checkins = checkins;
       });
   }
-
-
-
+  
   fecharCheckout() {
     this.showCheckout = false;
     this.checkinForm.reset();

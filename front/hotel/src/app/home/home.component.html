@@ -10,49 +10,45 @@
             {{this.mensagem}}
         </div>
     </div>
-</div>
-<div class="content"></div>
-<div>
-    <form action="" [formGroup]="checkinForm">
-        <fieldset class="background-azul color-white"> Novo Check in</fieldset>
+</div> 
+<p></p>
+<form action="" [formGroup]="checkinForm">
+    <fieldset class="background-azul color-white"> Novo Check in</fieldset>
 
-        <div class="content">
-            <div class="flex-item-1">
-                <label for="">Data/Hora de Entrada</label>
-                <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
-                    type="datetime-local">
-            </div>
-
-            <div class="flex-item-1">
-                <label for="">Data/Hora de Saída</label>
-                <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
-                    type="datetime-local">
-            </div>
+    <div class="content">
+        <div class="flex-item-1">
+            <label for="">Data/Hora de Entrada</label>
+            <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
+                type="datetime-local">
         </div>
 
-        <div class="content">
-            <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
-                <app-busca-pessoas [label]="'Pessoa'" (fecharBuscaPessoasEmitter)="selecionarPessoa($event)">
-                </app-busca-pessoas>
-            </div>
+        <div class="flex-item-1">
+            <label for="">Data/Hora de Saída</label>
+            <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
+                type="datetime-local">
+        </div>
+    </div>
 
-            <div class="flex-item-1">
-                <div>
-                    <input formControlName="adicionalVeiculo" id="possui-veiculo" type="checkbox">
-                    <label for="possui-veiculo">Possui Veículo</label>
-                </div>
+    <div class="content">
+        <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
+            <app-busca-pessoas [label]="'Pessoa'" (fecharBuscaPessoasEmitter)="selecionarPessoa($event)">
+            </app-busca-pessoas>
+        </div>
+
+        <div class="flex-item-1">
+            <div>
+                <input formControlName="adicionalVeiculo" id="possui-veiculo" type="checkbox">
+                <label for="possui-veiculo">Possui Veículo</label>
             </div>
         </div>
-        <p class="alinhar-direita content">
-            <button class="btn background-azul color-white" (click)="salvarCheckin()">
-                salvar
-            </button>
-        </p>
-    </form>
-</div>
-<p>
-
-</p>
+    </div>
+    <p class="alinhar-direita content">
+        <button class="btn background-azul color-white" (click)="salvarCheckin()">
+            salvar
+        </button>
+    </p>
+</form>
+<p></p>
 <div>
     <form [formGroup]="pesquisaCheckinForm">
         <fieldset class="background-azul color-white"> Consultas:</fieldset>
@@ -74,72 +70,48 @@
                 </div>
             </div>
         </div>
-        <section *ngIf="checkins.length > 0 else semRegistros">
-            <div class="content">
-                <div class="flex-item-1">
-                    <label for=""> Nome </label>
-                </div>
-                <div class="flex-item-1">
-                    <label for="">Documento</label>
-                </div>
-                <div class="flex-item-1">
-                    <label for="">Valor Gasto</label>
-                </div>
-                <div class="flex-item-1">
-
-                </div>
-            </div>
-            <hr>
-            <div class="content linha" *ngFor="let item of this.checkins">
-                <div class="flex-item-1">
-                    {{ item.hospede.nome}}
-                </div>
-                <div class="flex-item-1">
-                    {{ item.hospede.documento}}
-                </div>
-                <div class="flex-item-1">
-                    R$ {{ item.valorAPagar | number:'1.2-2'}}
-                </div>
-                <div class="flex-item-1">
-                    <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
-                        Checkout &rarr;
-                    </button>
-                </div>
-            </div>
-        </section>
-        <ng-template #semRegistros>
-            <div class="content linha">
-                <div class="flex-item-1">
-                    Sem Registros
-                </div>
-            </div>
-        </ng-template>
-
-        <div *ngIf="checkins.length > 0" class="center col s8">
-            <!-- paginador -->
-            <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
-                <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}"
-                    class="waves-effect ">
-                    <a class="btn">primeiro</a>
-                </li>
-                <li (click)="setPageofClientes(pagerClientes.currentPage - 1)"
-                    [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
-                    <a class="btn">anterior</a>
-                </li>
-                <li (click)="setPageofClientes(page)" *ngFor="let page of pagerClientes.pages"
-                    [ngClass]="{'active active2' :pagerClientes.currentPage === page}" class="waves-effect white-text ">
-                    <a class="btn">{{page}}</a>
-                </li>
-                <li (click)="setPageofClientes(pagerClientes.currentPage + 1)"
-                    [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a class="btn">próximo</a>
-                </li>
-                <li (click)="setPageofClientes(pagerClientes.totalPages)"
-                    [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a class="btn"> último</a>
-                </li>
-            </ul>
-            <!-- fim paginador -->
-        </div>
     </form>
+    <section *ngIf="checkins.length > 0 else semRegistros">
+        <div class="content">
+            <div class="flex-item-1">
+                <label for=""> Nome </label>
+            </div>
+            <div class="flex-item-1">
+                <label for="">Documento</label>
+            </div>
+            <div class="flex-item-1">
+                <label for="">Valor Gasto</label>
+            </div>
+            <div class="flex-item-1">
+
+            </div>
+        </div>
+        <hr>
+        <div class="content linha" *ngFor="let item of this.checkins">
+            <div class="flex-item-1">
+                {{ item.hospede.nome}}
+            </div>
+            <div class="flex-item-1">
+                {{ item.hospede.documento}}
+            </div>
+            <div class="flex-item-1">
+                R$ {{ item.valorAPagar | number:'1.2-2'}}
+            </div>
+            <div class="flex-item-1">
+                <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
+                    Checkout &rarr;
+                </button>
+            </div>
+        </div>
+    </section>   
+    <app-pagination *ngIf="checkins.length > 0" [pager]="pager" (paginationEmmiter)="setPageofClientes($event)">
+    </app-pagination>
 </div>
+
+<ng-template #semRegistros>
+    <div class="content linha">
+        <div class="flex-item-1">
+            Sem Registros
+        </div>
+    </div>
+</ng-template>

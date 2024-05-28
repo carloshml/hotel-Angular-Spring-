@@ -12,6 +12,7 @@ import { BuscaPessoasComponent } from './componentes/busca-pessoas/busca-pessoas
 import { LoaderComponent } from './componentes/loader/loader.component';
 import { ModalCheckoutComponent } from './modais/modal-checkout/modal-checkout.component';
 import { MenuComponent } from './componentes/menu/menu.component';
+import { PaginationComponent } from './componentes/pagination/pagination.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MenuComponent } from './componentes/menu/menu.component';
     BuscaPessoasComponent,
     LoaderComponent,
     ModalCheckoutComponent,
-    MenuComponent
+    MenuComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
