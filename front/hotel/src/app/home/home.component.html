@@ -18,13 +18,13 @@
 
         <div class="content">
             <div class="flex-item-1">
-                <div> <label for="">Data/Hora de Entrada</label> </div>
+                <label for="">Data/Hora de Entrada</label>
                 <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
                     type="datetime-local">
             </div>
 
             <div class="flex-item-1">
-                <div> <label for="">Data/Hora de Saída</label> </div>
+                <label for="">Data/Hora de Saída</label> 
                 <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
                     type="datetime-local">
             </div>
@@ -110,23 +110,23 @@
             <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
                 <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}"
                     class="waves-effect ">
-                    <a>primeiro</a>
+                    <a class="btn">primeiro</a>
                 </li>
                 <li (click)="setPageofClientes(pagerClientes.currentPage - 1)"
                     [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
-                    <a>anterior</a>
+                    <a class="btn">anterior</a>
                 </li>
                 <li (click)="setPageofClientes(page)" *ngFor="let page of pagerClientes.pages"
                     [ngClass]="{'active active2' :pagerClientes.currentPage === page}" class="waves-effect white-text ">
-                    <a>{{page}}</a>
+                    <a class="btn">{{page}}</a>
                 </li>
                 <li (click)="setPageofClientes(pagerClientes.currentPage + 1)"
                     [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a>próximo</a>
+                    <a class="btn">próximo</a>
                 </li>
                 <li (click)="setPageofClientes(pagerClientes.totalPages)"
                     [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a>último</a>
+                    <a class="btn" > último</a>
                 </li>
             </ul>
             <!-- fim paginador -->

@@ -1,13 +1,13 @@
-<app-menu *ngIf="showMenu" (componentMenuEmitter)="receberMenuComponente($event)" ></app-menu>
+<app-menu  #menuComponente ></app-menu>
 <!-- Toolbar -->
 <nav class="toolbar content" role="banner">
-  <div class="flex-menu" (click)="totgleMenu()">
+  <div   class="flex-menu" (click)="menuComponente.totgleMenu()">
      <div  class="barra-menu"></div>
      <div  class="barra-menu"></div>
      <div  class="barra-menu"></div>
   </div>
-  <div class="flex-item-1">
-    <img alt="Senior Logo" [src]="'assets/img/senior-logo.png'" />
+  <div class="flex-item-1 ">
+    <img class="logo" alt="Senior Logo" [src]="'assets/img/senior-logo.png'" />
   </div>
   <div class="flex-item-1 alinhar-centro"> <span><a class="a-logo" href="">HOTEL</a></span> </div>
   <div class="spacer"></div>

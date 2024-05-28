@@ -2,11 +2,11 @@
 <div> <label for="">{{label}}</label> </div>
 <form *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
     <div [formGroup]="hospedeForm">
-        <input class=" maiusculas" formControlName="nome" type="text">
+        <input class=" maiusculas input-termo" formControlName="nome" type="text">
     </div>
     <div *ngIf="this.showBuscaPessoas">
         <div class="componente-busca-pessoas-wrappper">
-            <div class="componente-busca-pessoas">
+            <div>
                 <div class="content">
                     <div class="flex-item-1">
                         <label for=""> Nome </label>
@@ -30,15 +30,11 @@
 
 </form>
 <ng-template #pessoaSelecionada>
-    <form action="">
-        <div [formGroup]="hospedeForm">
-            <div class="row ">
-                <div class="flex-item-12">
-                    <input class="width-100 maiusculas" formControlName="nome" type="text">
-                </div>
-                <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
-                </button>
-            </div>
+    <form class="row" [formGroup]="hospedeForm" action="">
+        <div class="flex-item-12">
+            <input class="width-100 maiusculas input-termo" formControlName="nome" type="text">
         </div>
+        <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
+        </button>
     </form>
 </ng-template>
