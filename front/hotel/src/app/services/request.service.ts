@@ -18,7 +18,7 @@ export class RequestService {
 
   salvarCheckin(checkin: Checkin) {
     return this.http
-      .post<any>(`${this.API_URL}chekin/`, checkin)
+      .post<any>(`${this.API_URL}chekin`, checkin)
       .pipe(
         catchError(this.handleErrorPesquisa<Checkin>('salvarCheckin', new Checkin()))
       )
@@ -26,7 +26,7 @@ export class RequestService {
 
   salvarPessoa(pessoa: Pessoa) {
     return this.http
-      .post<any>(`${this.API_URL}hospede/`, pessoa)
+      .post<any>(`${this.API_URL}hospede`, pessoa)
       .pipe(
         catchError(this.handleErrorPesquisa<Pessoa>('salvarPessoa', new Pessoa()))
       )
@@ -44,7 +44,7 @@ export class RequestService {
   buscarCheckin(id: number, dataSaida: string, dataEntrada: string,
     tipoPesquisa: string, inicio: number, quantidade: number) {
     return this.http
-      .post<any>(`${this.API_URL}buscarChekin/`,
+      .post<any>(`${this.API_URL}buscarChekin`,
         {
           id,
           dataEntrada,
@@ -69,7 +69,7 @@ export class RequestService {
 
     return this.http
       .post<number>(
-        `${this.API_URL}buscaTotalCheckinPaginado/`,
+        `${this.API_URL}buscaTotalCheckinPaginado`,
         {
           id,
           dataEntrada,
@@ -77,8 +77,7 @@ export class RequestService {
           tipoPesquisa
         },
         {
-          headers,
-          params: { responseType: 'text' }
+          headers 
         }
       )
       .pipe(
