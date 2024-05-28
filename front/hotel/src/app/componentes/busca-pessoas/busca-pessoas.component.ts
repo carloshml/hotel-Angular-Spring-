@@ -85,7 +85,7 @@ export class BuscaPessoasComponent implements OnInit, OnDestroy {
 
   checkinSubscriber!: any;
 
-  buscarNovamente() {
+  buscar() {
     this.hospedeForm.enable();
     if (this.checkinSubscriber) {
       this.checkinSubscriber.unsubscribe();

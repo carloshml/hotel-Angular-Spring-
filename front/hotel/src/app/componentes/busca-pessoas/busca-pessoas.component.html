@@ -4,7 +4,7 @@
     <div [formGroup]="hospedeForm">
         <input class=" maiusculas input-termo" formControlName="nome" type="text">
     </div>
-    <div *ngIf="this.showBuscaPessoas">
+    <div *ngIf="this.showBuscaPessoas;">
         <div class="componente-busca-pessoas-wrappper">
             <div>
                 <div class="content">
@@ -34,7 +34,7 @@
         <div class="flex-item-12">
             <input class="width-100 maiusculas input-termo" formControlName="nome" type="text">
         </div>
-        <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
+        <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscar()"> x
         </button>
     </form>
 </ng-template>

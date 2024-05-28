@@ -24,7 +24,7 @@
             </div>
 
             <div class="flex-item-1">
-                <label for="">Data/Hora de Saída</label> 
+                <label for="">Data/Hora de Saída</label>
                 <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
                     type="datetime-local">
             </div>
@@ -74,37 +74,47 @@
                 </div>
             </div>
         </div>
-        <div class="content">
-            <div class="flex-item-1">
-                <label for=""> Nome </label>
-            </div>
-            <div class="flex-item-1">
-                <label for="">Documento</label>
-            </div>
-            <div class="flex-item-1">
-                <label for="">Valor Gasto</label>
-            </div>
-            <div class="flex-item-1">
+        <section *ngIf="checkins.length > 0 else semRegistros">
+            <div class="content">
+                <div class="flex-item-1">
+                    <label for=""> Nome </label>
+                </div>
+                <div class="flex-item-1">
+                    <label for="">Documento</label>
+                </div>
+                <div class="flex-item-1">
+                    <label for="">Valor Gasto</label>
+                </div>
+                <div class="flex-item-1">
 
+                </div>
             </div>
-        </div>
-        <hr>
-        <div class="content linha" *ngFor="let item of this.checkins">
-            <div class="flex-item-1">
-                {{ item.hospede.nome}}
+            <hr>
+            <div class="content linha" *ngFor="let item of this.checkins">
+                <div class="flex-item-1">
+                    {{ item.hospede.nome}}
+                </div>
+                <div class="flex-item-1">
+                    {{ item.hospede.documento}}
+                </div>
+                <div class="flex-item-1">
+                    R$ {{ item.valorAPagar | number:'1.2-2'}}
+                </div>
+                <div class="flex-item-1">
+                    <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
+                        Checkout &rarr;
+                    </button>
+                </div>
             </div>
-            <div class="flex-item-1">
-                {{ item.hospede.documento}}
+        </section>
+        <ng-template #semRegistros>
+            <div class="content linha">
+                <div class="flex-item-1">
+                    Sem Registros
+                </div>
             </div>
-            <div class="flex-item-1">
-                R$ {{ item.valorAPagar | number:'1.2-2'}}
-            </div>
-            <div class="flex-item-1">
-                <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
-                    Checkout &rarr;
-                </button>
-            </div>
-        </div>
+        </ng-template>
+
         <div *ngIf="checkins.length > 0" class="center col s8">
             <!-- paginador -->
             <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
@@ -126,7 +136,7 @@
                 </li>
                 <li (click)="setPageofClientes(pagerClientes.totalPages)"
                     [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a class="btn" > último</a>
+                    <a class="btn"> último</a>
                 </li>
             </ul>
             <!-- fim paginador -->
