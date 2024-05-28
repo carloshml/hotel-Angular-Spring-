@@ -1,0 +1,115 @@
+.barra-menu {
+    border-bottom: 2px solid white;
+    margin: 0 3px 8px 12px;
+    width: 31px;
+}
+
+.flex-menu {
+    cursor: pointer;
+    flex: 0;
+}
+
+.menu-wrapper {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
+    width: 100vw;
+    background-color: rgba(86, 86, 143, 0.3);
+    display: flex;
+}
+
+.menu {
+    background-color: white;
+    border-right: 4px solid #e4fdf9;
+    width: 30%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+.menu-item:link,
+.menu-item:visited,
+.menu-item:focus,
+.menu-item:hover,
+.menu-item:active {
+    color: #199580;
+    border-bottom: 1px solid #199580;
+}
+
+.menu-item {
+    color: #199580;
+    border-bottom: 1px solid #199580;
+    padding: 20px 40px;
+    font-weight: 600;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+}
+
+.menu-in {
+    -webkit-animation: menu-in-ani 0.5s linear;
+    /* Safari */
+    animation: menu-in-ani 0.5s linear;
+}
+
+.hidden{
+    display: none;
+}
+
+.open{
+    display: block;
+   transition: all 0.5s;
+}
+
+.menu-out {
+    -webkit-animation: menu-out-ani 0.5s linear;
+    /* Safari */
+    animation: menu-out-ani 0.5s linear;
+}
+
+/* Safari */
+@-webkit-keyframes menu-in-ani {
+    0% {
+        -webkit-width: 0%;
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-width: 30%;
+        opacity: 1;
+    }
+}
+
+@keyframes menu-in-ani {
+    0% {
+        width: 0%;
+        opacity: 0;
+    }
+
+    100% {
+        width: 30%;
+        opacity: 1;
+    }
+}
+
+
+/* Safari */
+@-webkit-keyframes menu-out-ani {
+    0% {
+        -webkit-width: 30%;
+    }
+
+    100% {
+        -webkit-width: 0%;
+    }
+}
+
+@keyframes menu-out-ani {
+    0% {
+        width: 30%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}

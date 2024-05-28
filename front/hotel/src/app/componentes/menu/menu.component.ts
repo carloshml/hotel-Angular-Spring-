@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { Pessoa } from 'src/app/entities/pessoa';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +9,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('componentMenu') componentMenu: ElementRef;
-  @Output() componentMenuEmitter: EventEmitter<ElementRef> = new EventEmitter();
+  @ViewChild('componentMenuWrapper') componentMenuWrapper: ElementRef;
+  showItemMenu: boolean;
 
   constructor() { }
 
@@ -18,7 +18,28 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.componentMenuEmitter.emit(this.componentMenu);
+  }
+
+  totgleMenu() {
+
+    if (Array.from(this.componentMenu.nativeElement.classList).includes('menu-in')) {
+      this.componentMenu.nativeElement.classList.remove('menu-in');
+      this.componentMenu.nativeElement.classList.add('menu-out');
+      this.showItemMenu =  false;
+      setTimeout(() => {
+        this.componentMenuWrapper.nativeElement.classList.add('hidden');
+     
+      }, 500);
+    } else { 
+      
+      this.componentMenuWrapper.nativeElement.classList.remove('hidden');
+      this.componentMenu.nativeElement.classList.remove('menu-out');
+      this.componentMenu.nativeElement.classList.add('menu-in');
+      setTimeout(() => {
+        this.showItemMenu =  true;
+      }, 500);
+    
+    }
   }
 
 }

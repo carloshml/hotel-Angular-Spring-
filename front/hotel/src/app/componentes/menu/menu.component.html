@@ -1,5 +1,6 @@
-<div class="menu-wrapper">
-    <div class="menu menu-in" #componentMenu>
-        <a class="menu-item" href="">HOME</a>
-        <a class="menu-item" href="pessoa-cadastro">INCLUIR UMA PESSOA</a>
+<div #componentMenuWrapper class="menu-wrapper hidden">
+    <div #componentMenu class="menu">
+        <a class="menu-item" [ngClass]="{'open' : showItemMenu ,  'hidden'  : !showItemMenu    }" href="">HOME</a>
+        <a class="menu-item" [ngClass]="{'open' : showItemMenu ,  'hidden'  : !showItemMenu    }"  href="pessoa-cadastro">INCLUIR UMA PESSOA</a>
     </div>
+</div>

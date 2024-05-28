@@ -1,4 +1,5 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { MenuComponent } from './componentes/menu/menu.component';
 
 @Component({
   selector: 'app-root',
@@ -7,23 +8,7 @@ import { Component, ElementRef } from '@angular/core';
 })
 export class AppComponent {
 
-  title = 'hotel';
-  showMenu = false;
-  menuComponente: HTMLDivElement;
+  title = 'hotel';  
+  @ViewChild('menuComponente') menuComponente: MenuComponent;
 
-  totgleMenu() {   
-    if (this.showMenu) {
-      this.menuComponente.classList.remove('menu-out');
-      this.menuComponente.classList.add('menu-out');
-      setTimeout(() => {
-        this.showMenu = false;
-      }, 450);
-    } else {
-      this.showMenu = true;
-    }
-  }
-
-  receberMenuComponente(menuComponente: ElementRef) {
-    this.menuComponente = menuComponente.nativeElement;    
-  }
 }
