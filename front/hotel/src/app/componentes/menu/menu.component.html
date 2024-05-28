@@ -1,4 +1,4 @@
-<div #componentMenuWrapper class="menu-wrapper hidden">
+<div #componentMenuWrapper class="menu-wrapper hidden" (click)="totgleMenu()">
     <div #componentMenu class="menu">
         <a class="menu-item" [ngClass]="{'open' : showItemMenu ,  'hidden'  : !showItemMenu    }" href="">HOME</a>
         <a class="menu-item" [ngClass]="{'open' : showItemMenu ,  'hidden'  : !showItemMenu    }"  href="pessoa-cadastro">INCLUIR UMA PESSOA</a>
