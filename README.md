@@ -1,8 +1,13 @@
-# hotel-Angular-Spring-
+# Hotel Angular Spring
 
 # Front
-- Angular 14
+- Angular 17
  
 # Back 
-- Java 8 
+- Java 17 
 - Spring 
+
+Utilize o comando `docker compose up`   dentro da pasta   `\back\hotelback\resources` para criar a base de dados com docker
+
+ 
+ 
