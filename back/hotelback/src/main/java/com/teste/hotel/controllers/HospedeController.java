@@ -12,22 +12,25 @@ import org.springframework.web.bind.annotation.*;
 import com.teste.hotel.commun.Util;
 import com.teste.hotel.entities.Hospede;
 import com.teste.hotel.repository.PessoaRepository;
+import com.teste.hotel.services.HospedeService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @RestController
 public class HospedeController {
 	@Autowired
-	private PessoaRepository _pessoaRepository;
+	private HospedeService hospedeService;
 
-	@GetMapping("/hospede")
+	@GetMapping("/hospede/all")
 	public List<Hospede> Get() {
-		return _pessoaRepository.findAll();
+		return hospedeService.findAll();
 	}
 
 	@GetMapping("/hospedeById/{id}")
 	public ResponseEntity<Hospede> GetById(@PathVariable(value = "id") long id) {
-		Optional<Hospede> pessoa = _pessoaRepository.findById(id);
+		Optional<Hospede> pessoa = hospedeService.findById(id);
 		if (pessoa.isPresent())
 			return new ResponseEntity<Hospede>(pessoa.get(), HttpStatus.OK);
 		else
@@ -37,7 +40,7 @@ public class HospedeController {
 	@PostMapping("/hospede")
 	public ResponseEntity<Hospede> Post(@Valid @RequestBody Hospede hospede) {		 
 		try {
-			_pessoaRepository.save(hospede);
+			hospedeService.save(hospede);
 			return new ResponseEntity<Hospede>(hospede, HttpStatus.OK);
 		} catch (Exception e) {
 			hospede.setMsgDetalhe(new Util().getCauseMessage(e.getCause()));
@@ -46,25 +49,25 @@ public class HospedeController {
 	}
 
 	@RequestMapping(value = "/hospede/{termoPesquisa}", method = RequestMethod.GET)
-	public ResponseEntity<List<Hospede>> buscarHospedes(@PathVariable(value = "termoPesquisa") String termoPesquisa) {
+	public ResponseEntity<List<Hospede>> buscarHospedes(@NotNull @NotBlank @PathVariable(value = "termoPesquisa") String termoPesquisa) {
 
 		PageRequest pageRequest = PageRequest.of(0, 5, Sort.Direction.DESC, "nome");
-		List<Hospede> hospedes = _pessoaRepository.findAllDataSaidaAnterior("%" + termoPesquisa + "%", pageRequest);
+		var hospedes = hospedeService.findAllByTermoPesquisa("%" + termoPesquisa + "%", pageRequest);
 		if (hospedes.isEmpty()) {
-			return new ResponseEntity<List<Hospede>>(hospedes, HttpStatus.NOT_FOUND);
+			return new ResponseEntity(hospedes, HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<List<Hospede>>(hospedes, HttpStatus.OK);
+			return new ResponseEntity(hospedes, HttpStatus.OK);
 		}
 
 	}
 
 	@RequestMapping(value = "/hospede/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Hospede> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Hospede newPessoa) {
-		Optional<Hospede> oldPessoa = _pessoaRepository.findById(id);
+		Optional<Hospede> oldPessoa = hospedeService.findById(id);
 		if (oldPessoa.isPresent()) {
 			Hospede pessoa = oldPessoa.get();
 			pessoa.setNome(newPessoa.getNome());
-			_pessoaRepository.save(pessoa);
+			hospedeService.save(pessoa);
 			return new ResponseEntity<Hospede>(pessoa, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,9 +75,9 @@ public class HospedeController {
 
 	@RequestMapping(value = "/hospede/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id) {
-		Optional<Hospede> pessoa = _pessoaRepository.findById(id);
+		Optional<Hospede> pessoa = hospedeService.findById(id);
 		if (pessoa.isPresent()) {
-			_pessoaRepository.delete(pessoa.get());
+			hospedeService.delete(pessoa.get());
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
