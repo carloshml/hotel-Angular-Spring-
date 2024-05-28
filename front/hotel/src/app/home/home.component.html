@@ -1,5 +1,6 @@
 <app-loader *ngIf="this.showLoader"></app-loader>
-<app-modal-checkout  *ngIf="showCheckout" [checkin]="this.checkinSelecionado"  (fecharCheckoutEmitter)="fecharCheckout()"  > </app-modal-checkout>
+<app-modal-checkout *ngIf="showCheckout" [checkin]="this.checkinSelecionado" (fecharCheckoutEmitter)="fecharCheckout()">
+</app-modal-checkout>
 <div class="row">
     <button class="flex-item-1 btn background-azul color-white" (click)="incluirPessoa()">
         Incluir Pessoa
@@ -31,25 +32,8 @@
 
         <div class="content">
             <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
-                <div> <label for="">Pessoa</label> </div>
-                <div *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
-                    <div formGroupName="hospede">
-                        <input class=" maiusculas" formControlName="nome" type="text">
-                    </div>
-                    <div *ngIf="this.showBuscaPessoas">
-                        <app-busca-pessoas [termoPesquisa]="this.termoPesquisa"
-                            (fecharBuscaPessoasEmitter)="selecionarPessoa($event)"></app-busca-pessoas>
-                    </div>
-                </div>
-                <ng-template #pessoaSelecionada>
-                    <div class="row ">
-                        <div class="flex-item-12" formGroupName="hospede">
-                            <input class="width-100 maiusculas" formControlName="nome" type="text">
-                        </div>
-                        <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
-                        </button>
-                    </div>
-                </ng-template>
+                <app-busca-pessoas [label]="'Pessoa'" (fecharBuscaPessoasEmitter)="selecionarPessoa($event)">
+                </app-busca-pessoas>
             </div>
 
             <div class="flex-item-1">
@@ -124,21 +108,25 @@
         <div *ngIf="checkins.length > 0" class="center col s8">
             <!-- paginador -->
             <ul *ngIf="pagerClientes.pages && pagerClientes.pages.length" class="pagination">
-                <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect ">
-                    <a >primeiro</a>
+                <li (click)="setPageofClientes(1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}"
+                    class="waves-effect ">
+                    <a>primeiro</a>
                 </li>
-                <li (click)="setPageofClientes(pagerClientes.currentPage - 1)" [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
-                    <a >anterior</a>
+                <li (click)="setPageofClientes(pagerClientes.currentPage - 1)"
+                    [ngClass]="{disabled:pagerClientes.currentPage === 1}" class="waves-effect">
+                    <a>anterior</a>
                 </li>
-                <li  (click)="setPageofClientes(page)" *ngFor="let page of pagerClientes.pages"
+                <li (click)="setPageofClientes(page)" *ngFor="let page of pagerClientes.pages"
                     [ngClass]="{'active active2' :pagerClientes.currentPage === page}" class="waves-effect white-text ">
-                    <a >{{page}}</a>
+                    <a>{{page}}</a>
                 </li>
-                <li (click)="setPageofClientes(pagerClientes.currentPage + 1)" [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a >próximo</a>
+                <li (click)="setPageofClientes(pagerClientes.currentPage + 1)"
+                    [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a>próximo</a>
                 </li>
-                <li  (click)="setPageofClientes(pagerClientes.totalPages)" [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
-                    <a >último</a>
+                <li (click)="setPageofClientes(pagerClientes.totalPages)"
+                    [ngClass]="{disabled:pagerClientes.currentPage === pagerClientes.totalPages}" class="waves-effect ">
+                    <a>último</a>
                 </li>
             </ul>
             <!-- fim paginador -->

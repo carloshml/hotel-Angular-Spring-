@@ -1,22 +1,44 @@
 <app-loader *ngIf="this.showLoader"></app-loader>
-<div class="componente-busca-pessoas-wrappper">
-    <div class="componente-busca-pessoas">
-        <div class="content">
-            <div class="flex-item-1">
-                <label for=""> Nome </label>
-            </div>
-            <div class="flex-item-1">
-                <label for="">Documento</label>
-            </div>          
-        </div>
-
-        <div title="Selecionar" class="content linha mouse" *ngFor="let item of this.pessoas" (click)="fechar(item)">
-            <div class="flex-item-1">
-                {{ item.nome}}
-            </div>
-            <div class="flex-item-1">
-                {{ item.documento}}
+<div> <label for="">{{label}}</label> </div>
+<form *ngIf="this.pessoaNaoSelecionada; else pessoaSelecionada">
+    <div [formGroup]="hospedeForm">
+        <input class=" maiusculas" formControlName="nome" type="text">
+    </div>
+    <div *ngIf="this.showBuscaPessoas">
+        <div class="componente-busca-pessoas-wrappper">
+            <div class="componente-busca-pessoas">
+                <div class="content">
+                    <div class="flex-item-1">
+                        <label for=""> Nome </label>
+                    </div>
+                    <div class="flex-item-1">
+                        <label for="">Documento</label>
+                    </div>
+                </div>
+                <div title="Selecionar" class="content linha mouse" *ngFor="let item of this.pessoas"
+                    (click)="fechar(item)">
+                    <div class="flex-item-1">
+                        {{ item.nome}}
+                    </div>
+                    <div class="flex-item-1">
+                        {{ item.documento}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+</form>
+<ng-template #pessoaSelecionada>
+    <form action="">
+        <div [formGroup]="hospedeForm">
+            <div class="row ">
+                <div class="flex-item-12">
+                    <input class="width-100 maiusculas" formControlName="nome" type="text">
+                </div>
+                <button class="btn-pesquisa background-vermelho flex-item-1" (click)="buscarNovamente()"> x
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

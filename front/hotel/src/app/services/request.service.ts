@@ -77,7 +77,7 @@ export class RequestService {
           tipoPesquisa
         },
         {
-          headers 
+          headers
         }
       )
       .pipe(
