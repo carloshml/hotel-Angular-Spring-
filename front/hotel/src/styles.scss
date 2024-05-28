@@ -95,8 +95,16 @@ $tam-border-radius: 4px;
 
 .content {
     display: flex;
+    flex-direction: row;
     padding: 11px 34px;
 }
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 800px) {
+    .content {
+      flex-direction: column;
+    }
+  }
 
 .row {
     display: flex;
