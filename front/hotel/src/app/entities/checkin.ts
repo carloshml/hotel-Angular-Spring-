@@ -4,9 +4,9 @@ export class Checkin {
     id: number;
     hospede: Pessoa;
     adicionalVeiculo: true;
-    dataEntrada: string;
+    dataEntrada: string | Date;
     dataSaida: string;
     valorAPagar: number;
 
-    constructor(){}
+    constructor() { }
 }

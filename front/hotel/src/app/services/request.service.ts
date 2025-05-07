@@ -59,9 +59,8 @@ export class RequestService {
       )
   }
 
-  buscaTotalCheckinPaginado(id: number, dataSaida: string, dataEntrada: string,
+  buscarTotalCheckinPaginado(id: number, dataSaida: string, dataEntrada: string,
     tipoPesquisa: string) {
-
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

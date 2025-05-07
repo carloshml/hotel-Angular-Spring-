@@ -53,13 +53,13 @@ export class HomeComponent implements OnInit {
     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('.')[0];
     this.checkinForm.get('dataEntrada')?.setValue(localISOTime);
-    this.buscaCheckin('DATASAIDAISNULL');
+    this.buscarCheckin('DATASAIDAISNULL');
     this.pesquisaCheckinForm
       .valueChanges
       .subscribe(tipoPesquisa => {
         this.termoPesquisaCheckin = '' + tipoPesquisa.tipoPesquisa;
-        this.buscaCheckin(this.termoPesquisaCheckin);
-      });   
+        this.buscarCheckin(this.termoPesquisaCheckin);
+      });
   }
 
   atualizaData(check: string) {
@@ -101,12 +101,19 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    let checkin2 = this.checkinForm.getRawValue() as Checkin;
+  
+    checkin2.dataEntrada = new Date(checkin2.dataEntrada).toISOString();
+    if (checkin2.dataSaida) {
+      checkin2.dataSaida = new Date(checkin2.dataSaida).toISOString();
+    }
+   
     this.showLoader = true;
-    this.request.salvarCheckin(checkin)
+    this.request.salvarCheckin(checkin2)
       .subscribe((checkins: Checkin[]) => {
         this.showLoader = false;
         this.checkinForm.reset();
-        this.buscaCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
+        this.buscarCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
       });
   }
 
@@ -119,11 +126,10 @@ export class HomeComponent implements OnInit {
     this.showCheckout = true;
   }
 
-  async buscaCheckin(termoPesquisaCheckin: string) {
+  async buscarCheckin(termoPesquisaCheckin: string) {
     this.termoPesquisaCheckin = termoPesquisaCheckin;
     this.showLoader = true;
-    await this.request.buscaTotalCheckinPaginado(0, new Date().toISOString().split('.')[0],
-      new Date().toISOString().split('.')[0], this.termoPesquisaCheckin)
+    await this.request.buscarTotalCheckinPaginado(0, new Date().toISOString(), new Date().toISOString(), this.termoPesquisaCheckin)
       .subscribe((retornoTotalAtendimentos: number) => {
         this.totalElementos = Number(retornoTotalAtendimentos).valueOf();
         if (this.totalElementos > 0) {
@@ -137,7 +143,7 @@ export class HomeComponent implements OnInit {
     this.showLoader = false;
   }
 
-  setPageofClientes(page: any) { 
+  setPageofClientes(page: any) {
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
@@ -145,18 +151,21 @@ export class HomeComponent implements OnInit {
     this.pager = this.paginacaoServico.getPager(this.totalElementos, page, this.valorMaximoLinhasGrid);
     // obtem a pagina atual dos itens
     this.showLoader = true;
-    this.request.buscarCheckin(0, new Date().toISOString().split('.')[0], new Date().toISOString().split('.')[0], this.termoPesquisaCheckin,
+    this.request.buscarCheckin(0, new Date().toISOString(), new Date().toISOString(), this.termoPesquisaCheckin,
       (this.pager.currentPage - 1), this.valorMaximoLinhasGrid)
       .subscribe((checkins: Checkin[]) => {
         this.showLoader = false;
-        this.checkins = checkins;
+        this.checkins = checkins.map(e => {
+          e.dataEntrada = new Date(e.dataEntrada);
+          return e;
+        })
       });
   }
-  
+
   fecharCheckout() {
     this.showCheckout = false;
     this.checkinForm.reset();
-    this.buscaCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
+    this.buscarCheckin('' + this.pesquisaCheckinForm.value.tipoPesquisa);
   }
 
 }
