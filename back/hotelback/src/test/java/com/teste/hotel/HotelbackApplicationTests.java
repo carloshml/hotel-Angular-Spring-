@@ -3,15 +3,19 @@ package com.teste.hotel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.teste.hotel.entities.Checkin;
+import com.teste.hotel.domain.Checkin;
 
 @SpringBootTest
 class HotelbackApplicationTests {
@@ -25,7 +29,7 @@ class HotelbackApplicationTests {
 
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		checkin.setDataEntrada(LocalDateTime.now());
+		checkin.setDataEntrada(ZonedDateTime.now());
 		checkins.add(checkin);
 		new Checkin().calcularValorPago(checkins);
 		assertEquals(checkins.get(0).getValorAPagar(), BigDecimal.ZERO);
@@ -35,8 +39,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiariaDiaDaSemanaSemVeiculo() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 5, 20, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 6, 00, 00, 00);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 5, 20, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 6, 00, 00, 00).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -49,8 +53,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiariaFimDeSemanaSemVeiculo() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 15, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 15, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -64,8 +68,8 @@ class HotelbackApplicationTests {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
 		checkin.setAdicionalVeiculo(true);
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 5, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 6, 12, 30, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 5, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 6, 12, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -79,8 +83,8 @@ class HotelbackApplicationTests {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
 		checkin.setAdicionalVeiculo(true);
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 15, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 15, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -93,8 +97,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiaria2MistoDiasSemVeiculo() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 14, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 14, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 16, 12, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -109,8 +113,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiaria2DiasMistoSemVeiculoDepois16_30() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 14, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 16, 16, 31, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 14, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 16, 16, 31, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -126,8 +130,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiaria2SemanaSemVeiculoDepois16_30() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 12, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 14, 16, 31, 40);
+		ZonedDateTime entrada =  LocalDateTime.of(2022, Month.OCTOBER, 12, 8, 30, 0).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 14, 16, 31, 0).atZone(ZoneId.of("America/Sao_paulo"));
 
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);
@@ -143,8 +147,8 @@ class HotelbackApplicationTests {
 	public void testaValorDiaria2SemanaComVeiculoDepois16_30() {
 		List<Checkin> checkins = new ArrayList<>();
 		Checkin checkin = new Checkin();
-		LocalDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 12, 8, 30, 40);
-		LocalDateTime saida = LocalDateTime.of(2022, Month.OCTOBER, 14, 16, 31, 40);
+		ZonedDateTime entrada = LocalDateTime.of(2022, Month.OCTOBER, 12, 8, 30, 40).atZone(ZoneId.of("America/Sao_paulo"));
+		ZonedDateTime saida =  LocalDateTime.of(2022, Month.OCTOBER, 14, 16, 31, 0).atZone(ZoneId.of("America/Sao_paulo"));
 		checkin.setAdicionalVeiculo(true);
 		checkin.setDataEntrada(entrada);
 		checkin.setDataSaida(saida);

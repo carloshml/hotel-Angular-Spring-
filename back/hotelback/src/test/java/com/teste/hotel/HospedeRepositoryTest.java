@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.teste.hotel.entities.Hospede;
+import com.teste.hotel.domain.Hospede;
 import com.teste.hotel.repository.PessoaRepository;
 
 import jakarta.persistence.EntityManager;

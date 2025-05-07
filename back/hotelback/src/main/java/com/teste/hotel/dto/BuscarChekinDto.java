@@ -1,18 +1,16 @@
 package com.teste.hotel.dto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BuscarChekinDto {
 
 	private Long id;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime dataSaida;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime dataEntrada;
+	 
+	private ZonedDateTime dataSaida;
+	 
+	private ZonedDateTime dataEntrada;
 	
 	private String  tipoPesquisa;
 	
@@ -52,19 +50,19 @@ public class BuscarChekinDto {
 		this.id = id;
 	}
 
-	public LocalDateTime getDataSaida() {
+	public ZonedDateTime getDataSaida() {
 		return dataSaida;
 	}
 
-	public void setDataSaida(LocalDateTime dataSaida) {
+	public void setDataSaida(ZonedDateTime dataSaida) {
 		this.dataSaida = dataSaida;
 	}
 
-	public LocalDateTime getDataEntrada() {
+	public ZonedDateTime getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(LocalDateTime dataEntrada) {
+	public void setDataEntrada(ZonedDateTime dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 

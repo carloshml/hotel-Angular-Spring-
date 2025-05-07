@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   postgres:
     container_name: postgres_container
@@ -8,20 +6,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: hotel
-   
     volumes:
-       - postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
-   
     restart: unless-stopped
-  
- 
 
 networks:
   postgres:
     driver: bridge
 
 volumes:
-    postgres:
-  
+  postgres:

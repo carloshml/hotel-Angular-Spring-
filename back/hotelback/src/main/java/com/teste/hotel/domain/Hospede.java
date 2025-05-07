@@ -1,4 +1,4 @@
-package com.teste.hotel.entities;
+package com.teste.hotel.domain;
 
 import java.io.Serializable;
 
