@@ -1,6 +1,6 @@
 :root {}
 
-$tam-border-radius: 4px;
+$tam-border-radius: 7px;
 
 @font-face {
     font-family: 'Gotham';
@@ -202,7 +202,7 @@ fieldset {
     margin: 0;
     padding: 10px;
     border: none;
-    border-radius: $tam-border-radius;
+    border-radius: calc( $tam-border-radius - 2px);
 }
 
 form {
@@ -238,4 +238,8 @@ input {
 
 .mouse {
     cursor: pointer;
+}
+
+.page-content{
+    margin: 0 15%;
 }

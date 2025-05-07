@@ -1,111 +1,125 @@
 <app-loader *ngIf="this.showLoader"></app-loader>
 <app-modal-checkout *ngIf="showCheckout" [checkin]="this.checkinSelecionado" (fecharCheckoutEmitter)="fecharCheckout()">
 </app-modal-checkout>
-<div class="row">
-    <button class="flex-item-1 btn background-azul color-white" (click)="incluirPessoa()">
-        Incluir Pessoa
-    </button>
-    <div class="flex-item-12 ">
-        <div *ngIf="this.mensagem" class="color-white btn background-vermelho">
-            {{this.mensagem}}
-        </div>
-    </div>
-</div> 
-<p></p>
-<form action="" [formGroup]="checkinForm">
-    <fieldset class="background-azul color-white"> Novo Check in</fieldset>
-
-    <div class="content">
-        <div class="flex-item-1">
-            <label for="">Data/Hora de Entrada</label>
-            <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
-                type="datetime-local">
-        </div>
-
-        <div class="flex-item-1">
-            <label for="">Data/Hora de Saída</label>
-            <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
-                type="datetime-local">
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
-            <app-busca-pessoas [label]="'Pessoa'" (fecharBuscaPessoasEmitter)="selecionarPessoa($event)">
-            </app-busca-pessoas>
-        </div>
-
-        <div class="flex-item-1">
-            <div>
-                <input formControlName="adicionalVeiculo" id="possui-veiculo" type="checkbox">
-                <label for="possui-veiculo">Possui Veículo</label>
-            </div>
-        </div>
-    </div>
-    <p class="alinhar-direita content">
-        <button class="btn background-azul color-white" (click)="salvarCheckin()">
-            salvar
+<div class="page-content">
+    <div class="row">
+        <button class="flex-item-2 btn background-azul color-white" (click)="incluirPessoa()">
+            Incluir Pessoa
         </button>
-    </p>
-</form>
-<p></p>
-<div>
-    <form [formGroup]="pesquisaCheckinForm">
-        <fieldset class="background-azul color-white"> Consultas:</fieldset>
-        <div class="content"> <label for="">Filtrar por:</label> </div>
+        <div class="flex-item-11 ">
+            <div *ngIf="this.mensagem" class="color-white btn background-vermelho">
+                {{this.mensagem}}
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <form action="" [formGroup]="checkinForm">
+        <fieldset class="background-azul color-white"> Novo Check in</fieldset>
+
         <div class="content">
             <div class="flex-item-1">
-                <div>
-                    <input id="DATASAIDAISNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
-                        value="DATASAIDAISNULL">
-                    <label for="DATASAIDAISNULL">Pessoas ainda presentes</label>
-                </div>
+                <label for="">Data/Hora de Entrada</label>
+                <input #inputDataEntrada (focus)="atualizaData('dataEntrada')" formControlName="dataEntrada"
+                    type="datetime-local">
+            </div>
+
+            <div class="flex-item-1">
+                <label for="">Data/Hora de Saída</label>
+                <input #inputDataSaida (focus)="atualizaData('dataSaida')" formControlName="dataSaida"
+                    type="datetime-local">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="flex-item-1" title="Buque por Nome/Telefone/Documento">
+                <app-busca-pessoas [label]="'Pessoa'" (fecharBuscaPessoasEmitter)="selecionarPessoa($event)">
+                </app-busca-pessoas>
             </div>
 
             <div class="flex-item-1">
                 <div>
-                    <input id="DATASAIDANOTNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
-                        value="DATASAIDANOTNULL">
-                    <label for="DATASAIDANOTNULL">Pessoas que já deixaram o hotel </label>
+                    <input formControlName="adicionalVeiculo" id="possui-veiculo" type="checkbox">
+                    <label for="possui-veiculo">Possui Veículo</label>
                 </div>
             </div>
         </div>
+        <p class="alinhar-direita content">
+            <button class="btn background-azul color-white" (click)="salvarCheckin()">
+                salvar
+            </button>
+        </p>
     </form>
-    <section *ngIf="checkins.length > 0 else semRegistros">
-        <div class="content">
-            <div class="flex-item-1">
-                <label for=""> Nome </label>
-            </div>
-            <div class="flex-item-1">
-                <label for="">Documento</label>
-            </div>
-            <div class="flex-item-1">
-                <label for="">Valor Gasto</label>
-            </div>
-            <div class="flex-item-1">
+    <p></p>
+    <div>
+        <form [formGroup]="pesquisaCheckinForm">
+            <fieldset class="background-azul color-white"> Consultas:</fieldset>
+            <div class="content"> <label for="">Filtrar por:</label> </div>
+            <div class="content">
+                <div class="flex-item-1">
+                    <div>
+                        <input id="DATASAIDAISNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
+                            value="DATASAIDAISNULL">
+                        <label for="DATASAIDAISNULL">Pessoas ainda presentes</label>
+                    </div>
+                </div>
 
+                <div class="flex-item-1">
+                    <div>
+                        <input id="DATASAIDANOTNULL" formControlName="tipoPesquisa" name="tipoPesquisa" type="radio"
+                            value="DATASAIDANOTNULL">
+                        <label for="DATASAIDANOTNULL">Pessoas que já deixaram o hotel </label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <hr>
-        <div class="content linha" *ngFor="let item of this.checkins">
-            <div class="flex-item-1">
-                {{ item.hospede.nome}}
-            </div>
-            <div class="flex-item-1">
-                {{ item.hospede.documento}}
-            </div>
-            <div class="flex-item-1">
-                R$ {{ item.valorAPagar | number:'1.2-2'}}
-            </div>
-            <div class="flex-item-1">
-                <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
-                    Checkout &rarr;
+            <p class="alinhar-direita content">
+                <button class="btn background-azul color-white" (click)="buscarCheckin(termoPesquisaCheckin)">
+                    Buscar
                 </button>
+            </p>
+        </form>
+        <section *ngIf="checkins.length > 0 else semRegistros">
+            <div class="content">
+                <div class="flex-item-1">
+                    <strong for=""> Nome </strong>
+                </div>
+                <div class="flex-item-1">
+                    <strong for="">Documento</strong>
+                </div>
+                <div class="flex-item-1">
+                    <strong for="">Entrada</strong>
+                </div>
+                <div class="flex-item-1">
+                    <strong for="">Valor Gasto</strong>
+                </div>
+                <div class="flex-item-1">
+
+                </div>
             </div>
-        </div>
-    </section>   
-    <app-pagination *ngIf="checkins.length > 0" [pager]="pager" (paginationEmmiter)="setPageofClientes($event)">
-    </app-pagination>
+            <hr>
+            <div class="content linha" *ngFor="let item of this.checkins">
+                <div class="flex-item-1">
+                    {{ item.hospede.nome}}
+                </div>
+                <div class="flex-item-1">
+                    {{ item.hospede.documento}}
+                </div>
+                <div class="flex-item-1">
+                    {{ item.dataEntrada | date:'dd/MM/yyyy HH:mm:00' }}
+
+                </div>
+                <div class="flex-item-1">
+                    R$ {{ item.valorAPagar | number:'1.2-2'}}
+                </div>
+                <div class="flex-item-1">
+                    <button *ngIf="!item.dataSaida" class="btn background-amarelo" (click)="checkout(item)">
+                        Checkout &rarr;
+                    </button>
+                </div>
+            </div>
+        </section>
+        <app-pagination *ngIf="checkins.length > 0" [pager]="pager" (paginationEmmiter)="setPageofClientes($event)">
+        </app-pagination>
+    </div>
 </div>
 
 <ng-template #semRegistros>
